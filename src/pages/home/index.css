@@ -171,9 +171,10 @@
   #cardList {
     display: flex;
     flex-direction: row;
-    overflow-x: hidden;
+    overflow-x: auto;
     gap: 20px;
     background: #f8f8f8;
+    padding: 20px;
   }
   #card {
     display: flex;
