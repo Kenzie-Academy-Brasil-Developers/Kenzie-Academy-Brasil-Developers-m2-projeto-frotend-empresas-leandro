@@ -1,3 +1,5 @@
+
+
 #div-header-logo {
   display: flex;
   align-items: center;
@@ -17,15 +19,21 @@
   border-radius: 50%;
 }
 
-#header {
+#header-div-container {
   box-sizing: border-box;
   height: 70px;
   padding: 1rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  width: 80%;
+  margin: 0 auto;
+}
+
+#header {
+  width: 100vw;
   border-bottom: 1px solid rgba(0, 0, 0, 0.2);
-  margin-bottom: 23.13px;
+  margin: 0 auto 23.13px;
 }
 
 #menu {
@@ -42,6 +50,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 80%;
   margin: 0 auto;
   /* width: 100vw; */
   /* background-image: url(../../images/Rectangle\ 6.png);
@@ -52,7 +61,7 @@
   display: flex;
   width: 100%;
   margin: 0 auto;
-  justify-content: space-around;
+  justify-content: space-between;
 }
 
 #left-section {

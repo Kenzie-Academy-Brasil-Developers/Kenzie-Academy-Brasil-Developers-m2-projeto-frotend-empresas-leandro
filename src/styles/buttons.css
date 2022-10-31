@@ -38,9 +38,9 @@
 }
 
 .big-button {
-  width: 331px;
+  width: 100%;
   height: 52px;
-  margin-bottom: 25.69px;
+  /* margin-bottom: 25.69px; */
 }
 
 .circle-button {

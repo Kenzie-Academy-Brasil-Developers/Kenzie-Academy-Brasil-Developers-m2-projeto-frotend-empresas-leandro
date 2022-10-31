@@ -1,0 +1,21 @@
+
+.input-default {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 22px;
+    /* identical to box height */
+    
+    
+    color: rgba(0, 0, 0, 0.5);
+
+    padding: 16px;
+    width: 422px;
+    height: 52px;
+    left: 509px;
+    top: 379px;
+    
+    background: #FFFFFF;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+}

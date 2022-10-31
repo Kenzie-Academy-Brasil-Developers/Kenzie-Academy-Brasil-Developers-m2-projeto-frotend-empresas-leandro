@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="stylesheet" href="../../styles/globalStyles.css" />
+    <link rel="stylesheet" href="../../styles/buttons.css" />
+    <link rel="stylesheet" href="../../styles/inputs.css" />
+    <link rel="stylesheet" href="./index.css" />
+
+    <title>Kenzie Empresas - Register</title>
+  </head>
+  <body>
+    <header id="header">
+      <div id="header-div-container">
+        <div id="div-header-logo">
+          <div id="div-logo"></div>
+          <h2 id="logo">Kenzie Empresas</h2>
+        </div>
+        <nav id="nav">
+          <div id="hamburger" class="btn-mobile"></div>
+          <ul id="menu">
+            <li>
+              <button
+                id="button-to-home"
+                class="button-default button-style-100"
+              >
+                Home
+              </button>
+            </li>
+            <li>
+              <button
+                id="button-to-login"
+                class="button-default button-style-200"
+              >
+                Login
+              </button>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+    <main id="main">
+      <form id="form-register">
+        <h2 class="TitleForm">Login</h2>
+        <p class="pTextForm">Preencha os campos para realizar login</p>
+        <input
+          type="text"
+          class="input-default"
+          placeholder="Seu nome"
+          required
+        />
+        <input
+          type="email"
+          class="input-default"
+          placeholder="Seu e-mail"
+          required
+        />
+        <input
+          type="password"
+          class="input-default"
+          placeholder="Sua senha"
+          required
+        />
+        <select
+          class="input-default"
+          name="profission-rank"
+          id="profission-rank"
+        >
+          <option value="">Nível profissional</option>
+          <option value="estágio">Estágio</option>
+          <option value="júnior">Júnior</option>
+          <option value="pleno">Pleno</option>
+          <option value="sênior">Sênior</option>
+        </select>
+        <button class="big-button button-default button-style-200">
+          Cadastre-se
+        </button>
+        <button class="big-button button-default button-style-100">
+          Retornar
+        </button>
+      </form>
+    </main>
+  </body>
+  <script type="module" src="./index.js"></script>
+</html>
