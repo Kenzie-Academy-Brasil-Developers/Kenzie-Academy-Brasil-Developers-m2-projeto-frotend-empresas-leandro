@@ -1,0 +1,120 @@
+#div-header-logo {
+  display: flex;
+  align-items: center;
+  gap: 10.47px;
+}
+
+#logo {
+  padding: 17px 0;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+#div-logo {
+  width: 11.17px;
+  height: 11.17px;
+  background: rgba(66, 0, 255, 0.5);
+  border-radius: 50%;
+}
+
+#header-div-container {
+  box-sizing: border-box;
+  height: 70px;
+  padding: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 80%;
+  margin: 0 auto;
+}
+
+#header {
+  width: 100vw;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  margin: 0 auto 23.13px;
+}
+
+#menu {
+  display: flex;
+  list-style: none;
+  gap: 0.5rem;
+}
+
+#btn-mobile {
+  display: none;
+}
+
+#main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 80%;
+  margin: 0 auto;
+}
+
+#top-section-userPage {
+  display: flex;
+  flex-direction: column;
+  /* align-items: center; */
+  justify-content: center;
+  padding: 20px;
+  gap: 11px;
+  width: 100%;
+  height: 121px;
+  background: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  margin-bottom: 55px;
+}
+
+#about-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+#about-user {
+  display: flex;
+  gap: 20px;
+}
+
+#edit {
+  width: 26.72px;
+  height: 26.72px;
+}
+
+#bottom-section-userPage {
+  display: flex;
+  flex-direction: column;
+  padding: 59px;
+  width: 100%;
+  height: 467px;
+  background: #f8f8f8;
+}
+
+#title-bottom-section-userPage {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 78px;
+  background: #4200ff;
+  color: #ffffff;
+}
+
+#card-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 54px;
+}
+
+.cards {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  padding: 20px;
+  width: 318px;
+  height: 76px;
+  gap: 14px;
+  list-style: none;
+  border: 1px solid #4200ff;
+  background: #ffffff;
+}

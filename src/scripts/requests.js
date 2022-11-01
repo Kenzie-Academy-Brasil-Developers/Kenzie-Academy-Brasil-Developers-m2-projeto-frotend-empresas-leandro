@@ -16,9 +16,9 @@ export async function requestRegister(body) {
       const response = await request.json();
 
       window.location.assign("../login/index.html");
+
     } else {
       console.log(err);
-      //   return request.message;
     }
   } catch (err) {
     console.log(err);
@@ -38,14 +38,15 @@ export async function requestLogin(body) {
       console.log(request);
       if (request.ok == true) {
         const response = await request.json();
-        console.log(response);
+        // console.log(response);
   
         localStorage.setItem("user", response.token);
+        
         requestValidateUser(response.token)
-        // window.location.assign("../../user/index.html");
+
       } else  {
         console.log(err);
-        //   return request.message;
+
       }
     } catch (err) {
       console.log(err);
@@ -58,12 +59,14 @@ export async function requestLogin(body) {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          Autorization: `Bearer ${token}`
+          Authorization: `Bearer ${token}`
         },
         
       });
-      if (request.ok == true) {
-        const response = await request.json();
+      const response = await request.json();
+      const admin = response.is_admin
+      // console.log(admin);
+      if (admin === true) {
 
         localStorage.setItem("user-type", "adm");
         window.location.replace("../admin/index.html")
@@ -79,8 +82,6 @@ export async function requestLogin(body) {
       console.log(err);
     }
   };
-
-
 
   export const requestListCompanies = async () => {
     const response = await fetch(baseURL + "companies");

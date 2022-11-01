@@ -25,10 +25,10 @@ export const eventLogin = () => {
   });
 };
 
-export const buttonToRegister = () => {
-  buttonRegister.addEventListener("click", (event) => {
+// export const buttonToRegister = () => {
+//   buttonRegister.addEventListener("click", (event) => {
 
-    console.log("oi")
-    // window.location.replace("../../register/index.html");
-  });
-}
+//     console.log("oi")
+//     // window.location.replace("../../register/index.html");
+//   });
+// }
