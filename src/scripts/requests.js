@@ -27,7 +27,7 @@ export async function requestRegister(body) {
 
 export async function requestLogin(body) {
     try {
-      const request = await fetch(baseURL + "auth/login", {
+      const request = await fetch(baseURL + "auth/" + "login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -35,13 +35,15 @@ export async function requestLogin(body) {
         body: JSON.stringify(body),
       });
   
+      console.log(request);
       if (request.ok == true) {
         const response = await request.json();
+        console.log(response);
   
-        localStorage.setItem("user", JSON.stringify(response));
-
-        window.location.assign("../user/index.html");
-      } else {
+        localStorage.setItem("user", response.token);
+        requestValidateUser(response.token)
+        // window.location.assign("../../user/index.html");
+      } else  {
         console.log(err);
         //   return request.message;
       }
@@ -49,6 +51,35 @@ export async function requestLogin(body) {
       console.log(err);
     }
   }
+
+  export const requestValidateUser = async (token) => {
+    try {
+      const request = await fetch(baseURL + "auth/" + "validate_user", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Autorization: `Bearer ${token}`
+        },
+        
+      });
+      if (request.ok == true) {
+        const response = await request.json();
+
+        localStorage.setItem("user-type", "adm");
+        window.location.replace("../admin/index.html")
+
+      } else {
+
+        localStorage.setItem("user-type", "user");
+        window.location.replace("../user/index.html")
+        // console.log(err);
+      }
+
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
 
 
   export const requestListCompanies = async () => {
@@ -74,3 +105,36 @@ export async function requestLogin(body) {
   
     return data;
   };
+
+
+
+
+    // .then((response) => {
+  //   if(response.ok) {
+  //     return response.json()
+  //   } else {
+  //     alert(response.json().then(response => response.message))
+  //   }
+  // })
+  // .then(response => {
+  //   localStorage.setItem("user", response.token);
+  //   requestValidateUser(response.token)
+  // })
+
+
+  // .then((response) => {
+  //   if(response.ok) {
+  //     return response.json();
+  //   } else {
+  //     alert(response.json().then(response => response.message))
+  //   }
+  // })
+  // .then((response) => {
+  //   if(response) {
+  //     localStorage.setItem("user-type", "adm");
+  //     window.location.replace("../../admin/index.html")
+  //   } else {
+  //     localStorage.setItem("user-type", "user");
+  //     window.location.replace("../../user/index.html")  
+  //   }
+  // })

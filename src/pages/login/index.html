@@ -35,15 +35,18 @@
         </div>
     </header>
     <main id="main">
-      <form id="form-login">
-        <h2 class="TitleForm">Login</h2>
-        <p class="pTextForm">Preencha os campos para realizar login</p>
-        <input type="email" class="input-default" placeholder="Seu e-mail" />
-        <input type="password" class="input-default" placeholder="Sua senha" />
-        <button class="big-button button-default button-style-200">Login</button>
-        <p>ou</p>
-        <button class="big-button button-default button-style-100">Cadastre-se</button>
-      </form>
+      <section id="form-login">
+        <form>
+          <h2 class="TitleForm">Login</h2>
+          <p class="pTextForm">Preencha os campos para realizar login</p>
+          <input type="email" name="email" class="input-default" placeholder="Seu e-mail" />
+          <input type="password" name="password" class="input-default" placeholder="Sua senha" />
+          <button id="button-login" type="submit" class="big-button button-default button-style-200">Login</button>
+          <p>ou</p>
+        </form>
+        <button id="button-to-register" class="big-button button-default button-style-100">Cadastre-se</button>
+
+      </section>
     </main>
   </body>
   <script type="module" src="./index.js"></script>
