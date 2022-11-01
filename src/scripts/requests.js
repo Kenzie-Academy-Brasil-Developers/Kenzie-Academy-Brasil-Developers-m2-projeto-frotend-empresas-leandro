@@ -2,6 +2,9 @@ import { getLocalStorage } from "./localStorage.js";
 
 const baseURL = "http://localhost:6278/";
 
+
+//ROTAS SEM TOKEN
+
 export async function requestRegister(body) {
   try {
     const request = await fetch(baseURL + "auth/register", {
@@ -102,6 +105,217 @@ export const requestListSectors = async () => {
 
   return data;
 };
+
+
+//FUNCIONÁRIOS
+
+export const requestUserProfileInfo = async (token) => {
+  try {
+    const request = await fetch(baseURL + "users/" + "profile", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    const response = await request.json();
+
+    return response;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const requestSameDepartamentUsers = async (token) => {
+  try {
+    const request = await fetch(baseURL + "users/" + "department/" + "coworkers", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    const response = await request.json();
+
+    return response;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const requestUserCompanyDepartment = async (token) => {
+  try {
+    const request = await fetch(baseURL + "users/" + "department", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    const response = await request.json();
+
+    return response;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export async function requestUpdateUser(body, token) {
+  try {
+    const request = await fetch(baseURL + "users", {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(body),
+    });
+
+    const response = await request.json();
+
+    return response;
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+
+//ADMIN
+
+export const requestListAllUsers = async (token) => {
+  try {
+    const request = await fetch(baseURL + "users", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    const response = await request.json();
+
+    return response;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const requestUsersUndepartamented = async (token) => {
+  try {
+    const request = await fetch(baseURL + "users/" + "out_of_work", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    const response = await request.json();
+
+    return response;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const requestUpdateEmployee = async (body, token, id) => {
+  try {
+    const request = await fetch(baseURL + "admin/" + "update_user/" + id, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(body),
+    });
+
+    const response = await request.json();
+
+    return response;
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+export const requestDeleteUser = async (token, id) => {
+  try {
+    const request = await fetch(baseURL + "admin/" + "delete_user/" + id, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (request.ok) {
+      const response = await request.json();
+
+      // toast(
+      //   "Post deletado com sucesso!",
+      //   `O post selecionado para exlusão foi deletado, a partir de agora não aparecerá no seu feed`
+      // );
+
+      // renderPosts();
+
+    } else {
+      console.log(err);
+    }
+    return response;
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+
+//Company
+
+export async function requestRegisterCompany(body, token) {
+  try {
+    const request = await fetch(baseURL + "companies", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(body),
+    });
+
+    const response = await request.json();
+
+    return response;
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+
+//Department
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // .then((response) => {
 //   if(response.ok) {

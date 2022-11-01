@@ -56,14 +56,14 @@ export const selectMenu = () => {
   option.innerText = "Selecionar Setor";
   option.value = "all-sectors";
 
-  option.addEventListener("change", () => {
-    // renderCompanies(companies)
-    // window.location.replace("../home/index.html");
-  });
-
   selectList.appendChild(option);
   selectList.addEventListener("change", (event) => {
-    // console.log(selectList.value);
+    console.log(selectList.value);
+
+    if(selectList.value == "all-sectors") {
+      renderCompanies(companies)
+      return
+    }
 
     renderCompanies(companies, selectList.value);
   });

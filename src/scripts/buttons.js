@@ -36,3 +36,19 @@ export const logout = () => {
         window.location.replace("../home/index.html");
     })
 }
+
+export const buttonToRegister = () => {
+    const buttonRegister = document.querySelector("#button-change-to-register");
+    buttonRegister.addEventListener("click", (event) => {
+      
+      // console.log("oi")
+      window.location.replace("../register/index.html");
+    });
+  }
+
+  export const backToLogin = () => {
+    const returnToLogin = document.querySelector("#return-login");
+    returnToLogin.addEventListener("click", () => {
+        window.location.replace("../home/index.html");
+    })
+  }

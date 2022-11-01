@@ -1,8 +1,5 @@
 import { requestLogin } from "../scripts/requests.js";
 
-const buttonRegister = document.querySelector("#button-to-register");
-console.log(buttonRegister);
-
 export const eventLogin = () => {
   const form = document.querySelector("form");
 //   console.log(form);
@@ -25,10 +22,4 @@ export const eventLogin = () => {
   });
 };
 
-// export const buttonToRegister = () => {
-//   buttonRegister.addEventListener("click", (event) => {
 
-//     console.log("oi")
-//     // window.location.replace("../../register/index.html");
-//   });
-// }
