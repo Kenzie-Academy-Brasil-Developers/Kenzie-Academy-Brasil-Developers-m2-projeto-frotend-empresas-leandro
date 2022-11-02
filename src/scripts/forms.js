@@ -60,6 +60,7 @@ export const editProfile = () => {
       await requestUpdateUser(body);
       renderUserInfo();
       backgroundModal.remove();
+      window.location.reload()
     });
     return formulario;
   }

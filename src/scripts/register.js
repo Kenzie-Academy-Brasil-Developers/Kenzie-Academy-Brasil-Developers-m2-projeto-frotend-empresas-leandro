@@ -10,7 +10,7 @@ export const eventRegister = () => {
       const body = {};
   
       elements.forEach((element) => {
-        if (element.tagName == "INPUT" && element.value !== "") {
+        if (element.tagName == "INPUT" && element.value !== "" || element.tagName == "SELECT" && element.value !== "") {
           body[element.name] = element.value;
         }
         console.log(body);

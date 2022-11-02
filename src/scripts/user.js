@@ -6,96 +6,125 @@ import { requestUpdateUser } from "./requests.js";
 import { editProfile } from "../scripts/forms.js";
 
 const userInfo = await requestUserProfileInfo();
-const companyInfo = await requestUserCompanyDepartment()
-const coworkers = await requestSameDepartamentUsers()
+const companyInfo = await requestUserCompanyDepartment();
+const coworkers = await requestSameDepartamentUsers();
+
 const sectionAboutUser = document.querySelector("#top-section-userPage");
-const titleCompanyName = document.querySelector("#title-bottom-section-userPage")
-const ulCoworkers = document.querySelector("#card-list")
+const titleCompanyName = document.querySelector(
+  "#title-bottom-section-userPage"
+);
+const ulCoworkers = document.querySelector("#card-list");
 
-console.log(userInfo.department_uuid);
-console.log(companyInfo.departments[0].uuid);
-console.log(companyInfo);
-console.log(coworkers);
-
-
-const verifyDepartment = () => {
-    const departments = [...companyInfo.departments]
-    console.log(departments);
-
-    if(userInfo.department_uuid === departments.uuid){
-
-        return departments.name
-    }
-}
-verifyDepartment()
+// console.log(userInfo.department_uuid);
+// console.log(companyInfo.departments[0].uuid);
+// console.log(userInfo);
+// console.log(companyInfo);
+// console.log(coworkers);
 
 export const renderUserInfo = () => {
-    sectionAboutUser.innerHTML = ""
-  
-    const divAboutContainer = document.createElement("div");
-    const divAboutUser = document.createElement("div");
-    const UserName = document.createElement("h2");
-    const pEmail = document.createElement("p");
-    const pProfessional_level = document.createElement("p");
-    const pKind_of_work = document.createElement("p");
-    const VectorImg = document.createElement("img");
+  sectionAboutUser.innerHTML = "";
 
-    divAboutContainer.id = "about-container";
-    divAboutUser.id = "about-user";
+  const divAboutContainer = document.createElement("div");
+  const divAboutUser = document.createElement("div");
+  const UserName = document.createElement("h2");
+  const pEmail = document.createElement("p");
+  const pProfessional_level = document.createElement("p");
+  const pKind_of_work = document.createElement("p");
+  const VectorImg = document.createElement("img");
 
-    UserName.innerText = userInfo.username;
-    pEmail.innerText = userInfo.email
-    pProfessional_level.innerText = userInfo.professional_level
-    pKind_of_work.innerText = userInfo.kind_of_work
+  divAboutContainer.id = "about-container";
+  divAboutUser.id = "about-user";
 
-    VectorImg.src = "../../images/Vector.png"
-    VectorImg.alt = "pencil"
-    VectorImg.id = "edit"
+  UserName.innerText = userInfo.username;
+  pEmail.innerText = userInfo.email;
+  pProfessional_level.innerText = userInfo.professional_level;
+  pKind_of_work.innerText = userInfo.kind_of_work;
 
-    VectorImg.addEventListener("click", async () => {
-        const userEdit = editProfile();
-        openModal(userEdit);
-      });
+  VectorImg.src = "../../images/Vector.png";
+  VectorImg.alt = "pencil";
+  VectorImg.id = "edit";
 
-    divAboutContainer.append(divAboutUser, VectorImg);
-    divAboutUser.append(pEmail, pProfessional_level, pKind_of_work);
-    sectionAboutUser.append(UserName, divAboutContainer);
+  VectorImg.addEventListener("click", async () => {
+    const userEdit = editProfile();
+    openModal(userEdit);
+  });
+
+  divAboutContainer.append(divAboutUser, VectorImg);
+  divAboutUser.append(pEmail, pProfessional_level, pKind_of_work);
+  sectionAboutUser.append(UserName, divAboutContainer);
 };
 
 export const renderCompanyAndDepartmentName = () => {
+  titleCompanyName.innerHTML = "";
 
-    titleCompanyName.innerHTML = ""
-    
-    // companyInfo.forEach(element => {
-        
-        const companyName = document.createElement("h2")
-        const p = document.createElement("p")
-        const departmentName = document.createElement("h2")
-        
-        p.innerText = "-"
-        companyName.innerText = companyInfo.name
-        departmentName.innerText = companyInfo.departments[0].name //precisa ser trabalhado
-        
-        titleCompanyName.append(companyName, p, departmentName)
-    // });
-}
+  if (companyInfo.error) {
+
+    titleCompanyName.classList.add("hidden");
+
+    // renderUnemployed() // função esta comentada
+
+  } else {
+    const company = [...companyInfo.departments];
+
+    const verifyDepartment = () => {
+      let departament = "" 
+
+      company.forEach((department) => {
+        // console.log(userInfo);
+        // console.log(department);
+        if (department.uuid === userInfo.department_uuid) {
+          departament = department.name;
+        }
+      });
+      return departament;
+    };
+
+    const companyName = document.createElement("h2");
+    const p = document.createElement("p");
+    const departmentName = document.createElement("h2");
+
+    p.innerText = "-";
+    companyName.innerText = companyInfo.name;
+    departmentName.innerText = verifyDepartment();
+
+    titleCompanyName.append(companyName, p, departmentName);
+  }
+};
 
 export const renderDepartmentCoworkers = () => {
+  ulCoworkers.innerHTML = "";
 
-    ulCoworkers.innerHTML = ""
+  coworkers.forEach((coworker) => {
+    const departmentCoworkers = [...coworker.users];
+    // console.log(departmentCoworkers);
 
-    coworkers.forEach(coworker => {
-        
-        const li = document.createElement("li");
-        const pName = document.createElement("p");
-    const pProfessional_level = document.createElement("p");
+    departmentCoworkers.forEach((user) => {
+      const li = document.createElement("li");
+      const pName = document.createElement("p");
+      const pProfessional_level = document.createElement("p");
+
+      li.classList.add("cards");
+
+      pName.innerText = user.username;
+      pProfessional_level.innerText = user.professional_level;
+
+      li.append(pName, pProfessional_level);
+      ulCoworkers.appendChild(li);
+      // console.log(coworker);
+    });
+  });
+};
+
+// const renderUnemployed = () => {
+//     ulCoworkers.innerHTML = ""
     
-    li.classList.add("cards")
-    
-    pName.innerText = coworker.users.username
-    pProfessional_level.innerText = coworker.users.professional_level
-    
-    li.append(pName, pProfessional_level)
-    ulCoworkers.appendChild(li)
-});
-}
+//     const li = document.createElement("li");
+//     const pText = document.createElement("p");
+
+//     li.classList.add("cardsUnemployed");
+
+//     pText.innerText = "Você ainda não foi contratado"
+
+//     li.append(pText);
+//     ulCoworkers.append(li)
+// }

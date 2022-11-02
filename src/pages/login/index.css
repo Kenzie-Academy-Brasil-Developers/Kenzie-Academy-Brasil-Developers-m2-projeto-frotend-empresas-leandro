@@ -27,6 +27,13 @@
   margin: auto;
 }
 
+.register {
+  display: flex;
+  flex-direction: column;
+  gap: 0.938rem;
+  align-items: center;
+}
+
 .pTextForm {
   width: 334px;
   height: 22px;

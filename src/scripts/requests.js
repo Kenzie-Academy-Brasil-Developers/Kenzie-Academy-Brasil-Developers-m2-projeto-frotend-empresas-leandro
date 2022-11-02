@@ -2,7 +2,6 @@ import { getLocalStorage } from "./localStorage.js";
 
 const baseURL = "http://localhost:6278/";
 
-
 //ROTAS SEM TOKEN
 
 export async function requestRegister(body) {
@@ -19,9 +18,9 @@ export async function requestRegister(body) {
 
     if (request.ok == true) {
       const response = await request.json();
-    
+
       console.log(response);
-    
+
       window.location.assign("../login/index.html");
     } else {
       console.log(err);
@@ -44,12 +43,13 @@ export async function requestLogin(body) {
     console.log(request);
     if (request.ok == true) {
       const response = await request.json();
-      // console.log(response);
+      console.log(response);
 
       localStorage.setItem("user", response.token);
       localStorage.setItem("@user", JSON.stringify(response));
 
       requestValidateUser(response.token);
+      // requestValidateUser(response);
     } else {
       console.log(err);
     }
@@ -59,17 +59,21 @@ export async function requestLogin(body) {
 }
 
 export const requestValidateUser = async (token) => {
+  // const localStorage = getLocalStorage();
   try {
     const request = await fetch(baseURL + "auth/" + "validate_user", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
+        // Authorization: `Bearer ${localStorage.token}`,
       },
     });
     const response = await request.json();
     const admin = response.is_admin;
+
     // console.log(admin);
+
     if (admin === true) {
       localStorage.setItem("user-type", "adm");
       window.location.replace("../admin/index.html");
@@ -107,7 +111,6 @@ export const requestListSectors = async () => {
   return data;
 };
 
-
 //FUNCIONÁRIOS
 
 export const requestUserProfileInfo = async () => {
@@ -125,6 +128,8 @@ export const requestUserProfileInfo = async () => {
 
     const response = await request.json();
     // console.log(response);
+    // localStorage.setItem("@userProfileInfo", JSON.stringify(response));
+
     return response;
   } catch (err) {
     console.log(err);
@@ -134,13 +139,16 @@ export const requestUserProfileInfo = async () => {
 export const requestSameDepartamentUsers = async () => {
   const localStorage = getLocalStorage();
   try {
-    const request = await fetch(baseURL + "users/" + "departments/" + "coworkers", {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${localStorage.token}`,
-      },
-    });
+    const request = await fetch(
+      baseURL + "users/" + "departments/" + "coworkers",
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.token}`,
+        },
+      }
+    );
     const response = await request.json();
 
     return response;
@@ -159,8 +167,14 @@ export const requestUserCompanyDepartment = async () => {
         Authorization: `Bearer ${localStorage.token}`,
       },
     });
+
+    // console.log(response.error);
     const response = await request.json();
-    // console.log(response);
+    if (request.ok) {
+      console.log(request);
+    } else {
+      console.log(response.error);
+    }
 
     return response;
   } catch (err) {
@@ -188,16 +202,16 @@ export async function requestUpdateUser(body) {
   }
 }
 
-
 //ADMIN
 
-export const requestListAllUsers = async (token) => {
+export const requestListAllUsers = async () => {
+  const localStorage = getLocalStorage();
   try {
     const request = await fetch(baseURL + "users", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${localStorage.token}`,
       },
     });
     const response = await request.json();
@@ -208,13 +222,14 @@ export const requestListAllUsers = async (token) => {
   }
 };
 
-export const requestUsersUndepartamented = async (token) => {
+export const requestUsersUndepartamented = async () => {
+  const localStorage = getLocalStorage();
   try {
     const request = await fetch(baseURL + "users/" + "out_of_work", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${localStorage.token}`,
       },
     });
     const response = await request.json();
@@ -225,13 +240,14 @@ export const requestUsersUndepartamented = async (token) => {
   }
 };
 
-export const requestUpdateEmployee = async (body, token, id) => {
+export const requestUpdateEmployee = async (body, id) => {
+  const localStorage = getLocalStorage();
   try {
     const request = await fetch(baseURL + "admin/" + "update_user/" + id, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${localStorage.token}`,
       },
       body: JSON.stringify(body),
     });
@@ -242,15 +258,16 @@ export const requestUpdateEmployee = async (body, token, id) => {
   } catch (err) {
     console.log(err);
   }
-}
+};
 
-export const requestDeleteUser = async (token, id) => {
+export const requestDeleteUser = async (id) => {
+  const localStorage = getLocalStorage();
   try {
     const request = await fetch(baseURL + "admin/" + "delete_user/" + id, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${localStorage.token}`,
       },
     });
 
@@ -263,7 +280,6 @@ export const requestDeleteUser = async (token, id) => {
       // );
 
       // renderPosts();
-
     } else {
       console.log(err);
     }
@@ -271,18 +287,18 @@ export const requestDeleteUser = async (token, id) => {
   } catch (err) {
     console.log(err);
   }
-}
-
+};
 
 //Company
 
-export async function requestRegisterCompany(body, token) {
+export async function requestRegisterCompany(body) {
+  const localStorage = getLocalStorage();
   try {
     const request = await fetch(baseURL + "companies", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${localStorage.token}`,
       },
       body: JSON.stringify(body),
     });
@@ -295,32 +311,157 @@ export async function requestRegisterCompany(body, token) {
   }
 }
 
-
 //Department
 
+export const requestListAllDepartments = async () => {
+  const localStorage = getLocalStorage();
+  try {
+    const request = await fetch(baseURL + "departments", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.token}`,
+      },
+    });
+    const response = await request.json();
 
+    return response;
+  } catch (err) {
+    console.log(err);
+  }
+};
 
+export const requestListAllCompanyDepartments = async (id) => {
+  const localStorage = getLocalStorage();
+  try {
+    const request = await fetch(baseURL + "departments/" + id, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.token}`,
+      },
+    });
+    const response = await request.json();
 
+    return response;
+  } catch (err) {
+    console.log(err);
+  }
+};
 
+export async function requestCreateDepartment(body) {
+  const localStorage = getLocalStorage();
+  try {
+    const request = await fetch(baseURL + "departments", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.token}`,
+      },
+      body: JSON.stringify(body),
+    });
 
+    console.log(request);
 
+    if (request.ok == true) {
+      const response = await request.json();
+      console.log(response);
 
+    } else {
+      console.log(err);
+    }
+  } catch (err) {
+    console.log(err);
+  }
+}
 
+export async function requestHireEmployee(body) {
+  const localStorage = getLocalStorage();
+  try {
+    const request = await fetch(baseURL + "departments/" + "hire", {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.token}`,
+      },
+      body: JSON.stringify(body),
+    });
 
+    const response = await request.json();
 
+    return response;
+  } catch (err) {
+    console.log(err);
+  }
+}
 
+export async function requestDismissEmployee(id) {
+  const localStorage = getLocalStorage();
+  try {
+    const request = await fetch(baseURL + "dismiss/" + id, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.token}`,
+      },
+    });
 
+    const response = await request.json();
 
+    return response;
+  } catch (err) {
+    console.log(err);
+  }
+}
 
+export async function requestEditDepartment(uuid) {
+  const localStorage = getLocalStorage();
+  try {
+    const request = await fetch(baseURL + "dismiss/" + uuid, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.token}`,
+      },
+      body: JSON.stringify(body),
+    });
 
+    const response = await request.json();
 
+    return response;
+  } catch (err) {
+    console.log(err);
+  }
+}
 
+export const requestDeleteDepartment = async (id) => {
+  const localStorage = getLocalStorage();
+  try {
+    const request = await fetch(baseURL + "departments/" + id, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.token}`,
+      },
+    });
 
+    if (request.ok) {
+      const response = await request.json();
 
+      // toast(
+      //   "Post deletado com sucesso!",
+      //   `O post selecionado para exlusão foi deletado, a partir de agora não aparecerá no seu feed`
+      // );
 
-
-
-
+      // renderPosts();
+    } else {
+      console.log(err);
+    }
+    return response;
+  } catch (err) {
+    console.log(err);
+  }
+};
 
 
 

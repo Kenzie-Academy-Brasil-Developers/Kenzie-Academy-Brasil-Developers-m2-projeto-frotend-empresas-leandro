@@ -41,7 +41,7 @@
   height: 26.72px;
 }
 
-#bottom-section-userPage {
+.bottom-section-userPage {
   display: flex;
   flex-direction: column;
   padding: 59px;
@@ -50,7 +50,7 @@
   background: #f8f8f8;
 }
 
-#title-bottom-section-userPage {
+.title-bottom-section-userPage {
   display: flex;
   gap: 20px;
   justify-content: center;
@@ -65,6 +65,10 @@
   display: flex;
   flex-wrap: wrap;
   gap: 54px;
+  height: 100%;
+  margin: 0 auto;
+  align-items: center;
+  /* justify-content: center; */
 }
 
 .cards {
@@ -78,4 +82,19 @@
   list-style: none;
   border: 1px solid #4200ff;
   background: #ffffff;
+}
+
+.cardsUnemployed {
+  list-style: none;
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 40px;
+  line-height: 48px;
+  text-align: center;
+  color: #000000;
+}
+
+.hidden {
+  display: none;
 }
