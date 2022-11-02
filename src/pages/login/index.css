@@ -1,33 +1,3 @@
-#div-header-logo {
-  display: flex;
-  align-items: center;
-  gap: 10.47px;
-}
-
-#logo {
-  padding: 17px 0;
-  font-size: 1.5rem;
-  font-weight: bold;
-}
-
-#div-logo {
-  width: 11.17px;
-  height: 11.17px;
-  background: rgba(66, 0, 255, 0.5);
-  border-radius: 50%;
-}
-
-#header-div-container {
-  box-sizing: border-box;
-  height: 70px;
-  padding: 1rem;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 80%;
-  margin: 0 auto;
-}
-
 #header {
   width: 100vw;
   border-bottom: 1px solid rgba(0, 0, 0, 0.2);
@@ -40,8 +10,8 @@
   background-image: url(../../images/Rectangle\ 7.png);
   background-repeat: no-repeat;
   background-size: cover;
-  width: 100%;
-  height: 89%;
+  width: 100vw;
+  height: 100vh;
 }
 
 #form-login {
@@ -49,22 +19,12 @@
   flex-direction: column;
   /* align-items: center; */
   justify-content: center;
-  padding: 40px;
-  gap: 15px;
-  width: 506px;
+  padding: 2.5rem;
+  gap: 0.938rem;
+  width: 31.625rem;
   /* height: 489px; */
   background: rgba(255, 255, 255, 0.95);
   margin: auto;
-}
-
-#menu {
-  display: flex;
-  list-style: none;
-  gap: 0.5rem;
-}
-
-#btn-mobile {
-  display: none;
 }
 
 .pTextForm {
@@ -91,4 +51,16 @@
   font-size: 40px;
   line-height: 60px;
   color: #000000;
+}
+
+@media (max-width: 600px) {
+  #left-section {
+    width: 0;
+    visibility: hidden;
+  }
+
+  #cardList {
+    display: flex;
+    flex-direction: row;
+  }
 }

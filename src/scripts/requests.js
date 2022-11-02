@@ -47,6 +47,7 @@ export async function requestLogin(body) {
       // console.log(response);
 
       localStorage.setItem("user", response.token);
+      localStorage.setItem("@user", JSON.stringify(response));
 
       requestValidateUser(response.token);
     } else {
@@ -109,30 +110,35 @@ export const requestListSectors = async () => {
 
 //FUNCIONÁRIOS
 
-export const requestUserProfileInfo = async (token) => {
+export const requestUserProfileInfo = async () => {
+  const localStorage = getLocalStorage();
   try {
     const request = await fetch(baseURL + "users/" + "profile", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${localStorage.token}`,
       },
     });
-    const response = await request.json();
+    // console.log(localStorage);
+    // console.log(request);
 
+    const response = await request.json();
+    // console.log(response);
     return response;
   } catch (err) {
     console.log(err);
   }
 };
 
-export const requestSameDepartamentUsers = async (token) => {
+export const requestSameDepartamentUsers = async () => {
+  const localStorage = getLocalStorage();
   try {
-    const request = await fetch(baseURL + "users/" + "department/" + "coworkers", {
+    const request = await fetch(baseURL + "users/" + "departments/" + "coworkers", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${localStorage.token}`,
       },
     });
     const response = await request.json();
@@ -143,16 +149,18 @@ export const requestSameDepartamentUsers = async (token) => {
   }
 };
 
-export const requestUserCompanyDepartment = async (token) => {
+export const requestUserCompanyDepartment = async () => {
+  const localStorage = getLocalStorage();
   try {
-    const request = await fetch(baseURL + "users/" + "department", {
+    const request = await fetch(baseURL + "users/" + "departments", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${localStorage.token}`,
       },
     });
     const response = await request.json();
+    // console.log(response);
 
     return response;
   } catch (err) {
@@ -160,13 +168,14 @@ export const requestUserCompanyDepartment = async (token) => {
   }
 };
 
-export async function requestUpdateUser(body, token) {
+export async function requestUpdateUser(body) {
+  const localStorage = getLocalStorage();
   try {
     const request = await fetch(baseURL + "users", {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${localStorage.token}`,
       },
       body: JSON.stringify(body),
     });

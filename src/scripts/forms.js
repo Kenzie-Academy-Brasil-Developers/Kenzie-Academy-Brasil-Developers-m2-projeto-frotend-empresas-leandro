@@ -1,4 +1,6 @@
 import { renderCompanies } from "./homePage.js";
+import { renderUserInfo } from "./user.js";
+import { requestUpdateUser } from "./requests.js";
 
 
 export const editProfile = () => {
@@ -14,22 +16,26 @@ export const editProfile = () => {
   inputName.classList.add("input-default")
   inputEmail.classList.add("input-default")
   inputPassword.classList.add("input-default")
-  buttonEdit.classList = "button-default button-style-200"
+  buttonEdit.classList = "big-button button-default button-style-200"
 
   h2.innerText = "Editar Perfil";
 
   inputName.placeholder = "Seu nome";
-  inputName.required = "required";
+  // inputName.required = "required";
   inputName.name = "username";
+  // inputName.value = `${username}`
 
   inputEmail.placeholder = "Seu e-mail";
-  inputEmail.required = "required";
+  // inputEmail.required = "required";
   inputEmail.name = "email";
+  // inputEmail.value = `${email}`
 
   inputPassword.placeholder = "Sua senha";
-  inputEmail.required = "required";
+  // inputEmail.required = "required";
   inputPassword.name = "password";
+  // inputPassword.value = `${password}`
 
+  buttonEdit.innerText = "Editar perfil"
   buttonEdit.addEventListener("click", objectModal);
 
   formulario.append(h2, inputName, inputEmail, inputPassword, buttonEdit);
@@ -51,8 +57,8 @@ export const editProfile = () => {
       });
 
       // console.log(body);
-      await requestCreateNewPost(body);
-      await renderCompanies();
+      await requestUpdateUser(body);
+      renderUserInfo();
       backgroundModal.remove();
     });
     return formulario;

@@ -29,7 +29,7 @@ export const renderCompanies = (array, filter) => {
         ulList.appendChild(li);
       }
     } else {
-      array.forEach((company) => {
+      // array.forEach((company) => {
         const li = document.createElement("li");
         const h3 = document.createElement("h3");
         const pHour = document.createElement("p");
@@ -44,7 +44,7 @@ export const renderCompanies = (array, filter) => {
 
         li.append(h3, pHour, pDescription);
         ulList.appendChild(li);
-      });
+      // });
     }
   });
 };

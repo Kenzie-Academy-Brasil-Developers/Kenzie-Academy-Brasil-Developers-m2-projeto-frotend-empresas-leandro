@@ -56,10 +56,6 @@
       top: -7px;
     }
   
-    #left-section {
-      visibility: hidden;
-    }
-  
     #cardList {
       display: flex;
       flex-direction: row;
