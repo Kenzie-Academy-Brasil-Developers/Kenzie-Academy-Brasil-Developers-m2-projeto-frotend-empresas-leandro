@@ -23,27 +23,28 @@ export const renderCompanies = (array, filter) => {
         pDescription.innerText = company.sectors.description;
 
         li.id = "card";
-        pDescription.classList = "circle-button button-default button-style-100";
+        pDescription.classList =
+          "circle-button button-default button-style-100";
 
         li.append(h3, pHour, pDescription);
         ulList.appendChild(li);
       }
     } else {
       // array.forEach((company) => {
-        const li = document.createElement("li");
-        const h3 = document.createElement("h3");
-        const pHour = document.createElement("p");
-        const pDescription = document.createElement("p");
+      const li = document.createElement("li");
+      const h3 = document.createElement("h3");
+      const pHour = document.createElement("p");
+      const pDescription = document.createElement("p");
 
-        h3.innerText = company.name;
-        pHour.innerText = company.opening_hours;
-        pDescription.innerText = company.sectors.description;
+      h3.innerText = company.name;
+      pHour.innerText = company.opening_hours;
+      pDescription.innerText = company.sectors.description;
 
-        li.id = "card";
-        pDescription.classList = "circle-button button-default button-style-100";
+      li.id = "card";
+      pDescription.classList = "circle-button button-default button-style-100";
 
-        li.append(h3, pHour, pDescription);
-        ulList.appendChild(li);
+      li.append(h3, pHour, pDescription);
+      ulList.appendChild(li);
       // });
     }
   });
@@ -60,9 +61,9 @@ export const selectMenu = () => {
   selectList.addEventListener("change", (event) => {
     console.log(selectList.value);
 
-    if(selectList.value == "all-sectors") {
-      renderCompanies(companies)
-      return
+    if (selectList.value == "all-sectors") {
+      renderCompanies(companies);
+      return;
     }
 
     renderCompanies(companies, selectList.value);
