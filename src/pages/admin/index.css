@@ -8,62 +8,81 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 80%;
+  width: 100vw;
+  height: 100vh;
   margin: 0 auto;
 }
 
-#div-sections {
+.section-departments {
   display: flex;
-  width: 100%;
-  margin: 0 auto;
+  flex-direction: column;
+  gap: 20px;
+  height: 50%;
+}
+
+.div-top-section {
+  display: flex;
+  flex-direction: row;
   justify-content: space-between;
 }
 
-#left-section {
-  background-image: url(../../images/Rectangle\ 6.png);
-  background-repeat: no-repeat;
-  width: 550px;
-  height: 743px;
-}
-
-#right-section {
-  width: 550px;
-  height: 743px;
+.department-cards-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 92px;
+  width: 1182px;
+  height: 385px;
   background: #f8f8f8;
+  padding: 34px 56px; 
+  overflow-y: auto;
+
 }
 
-#cardList {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 20px;
-}
-
-#card {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: 20px;
+.li-department-card {
   width: 489px;
-  height: 134.99px;
-  list-style: none;
-  background-color: #ffffff;
+  height: 196px;
+  padding: 20px;
+  background: #ffffff;
   border-bottom: 1px solid #4200ff;
+  list-style: none;
+}
+.div-about {
+  margin-bottom: 50px;
 }
 
-.titleh2-right-section {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 550px;
-  height: 52.18px;
-  background: #4200ff;
-  font-family: "Poppins";
+.div-about:nth-child(1) {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 24px;
+  color: #000000;
+}
+
+.div-about:nth-child(2) {
+  font-family: 'Inter';
   font-style: normal;
   font-weight: 400;
-  font-size: 20px;
-  line-height: 30px;
-  text-align: center;
-  color: #ffffff;
-  margin-bottom: 25px;
+  font-size: 18px;
+  line-height: 22px;
+  color: #000000;
+}
+
+.div-icons {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+}
+
+.div-top-section-users {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.section-users {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  height: 50%;
 }
