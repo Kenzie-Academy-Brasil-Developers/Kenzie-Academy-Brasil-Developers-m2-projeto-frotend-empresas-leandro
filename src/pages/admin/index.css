@@ -8,7 +8,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 100vw;
+  width: 1200px;
   height: 100vh;
   margin: 0 auto;
 }
@@ -30,7 +30,7 @@
   display: flex;
   flex-wrap: wrap;
   gap: 92px;
-  width: 1182px;
+  width: 100%;
   height: 385px;
   background: #f8f8f8;
   padding: 34px 56px;
@@ -58,7 +58,7 @@
   color: #000000;
 }
 
-.div-about:nth-child(2) {
+.div-about::nth-child(2) {
   font-family: "Inter";
   font-style: normal;
   font-weight: 400;
@@ -101,4 +101,22 @@
   line-height: 24px;
   color: #000000;
   background-color: #ffffff;
+}
+
+.titleRemoveModal {
+  display: flex;
+  justify-content: center;
+  /* text-align: center; */
+  align-items: center;
+  /* width: 419px; */
+  height: 84px;
+
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 28px;
+  line-height: 42px;
+  text-align: center;
+
+  color: #000000;
 }

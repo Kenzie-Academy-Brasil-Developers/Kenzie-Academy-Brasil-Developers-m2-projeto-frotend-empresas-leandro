@@ -5,9 +5,7 @@ import { requestUserCompanyDepartment } from "./requests.js";
 import { requestUpdateUser } from "./requests.js";
 import { editProfile } from "../scripts/forms.js";
 
-const userInfo = await requestUserProfileInfo();
-const companyInfo = await requestUserCompanyDepartment();
-const coworkers = await requestSameDepartamentUsers();
+
 
 const sectionAboutUser = document.querySelector("#top-section-userPage");
 const titleCompanyName = document.querySelector(
@@ -21,9 +19,9 @@ const ulCoworkers = document.querySelector("#card-list");
 // console.log(companyInfo);
 // console.log(coworkers);
 
-export const renderUserInfo = () => {
+export const renderUserInfo = async () => {
   sectionAboutUser.innerHTML = "";
-
+const userInfo = await requestUserProfileInfo();
   const divAboutContainer = document.createElement("div");
   const divAboutUser = document.createElement("div");
   const UserName = document.createElement("h2");
@@ -54,8 +52,11 @@ export const renderUserInfo = () => {
   sectionAboutUser.append(UserName, divAboutContainer);
 };
 
-export const renderCompanyAndDepartmentName = () => {
+export const renderCompanyAndDepartmentName = async () => {
   titleCompanyName.innerHTML = "";
+  const companyInfo = await requestUserCompanyDepartment();
+
+  const userInfo = await requestUserProfileInfo();
 
   if (companyInfo.error) {
 
@@ -91,8 +92,9 @@ export const renderCompanyAndDepartmentName = () => {
   }
 };
 
-export const renderDepartmentCoworkers = () => {
+export const renderDepartmentCoworkers = async () => {
   ulCoworkers.innerHTML = "";
+  const coworkers = await requestSameDepartamentUsers();
 
   coworkers.forEach((coworker) => {
     const departmentCoworkers = [...coworker.users];

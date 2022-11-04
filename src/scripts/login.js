@@ -15,10 +15,10 @@ export const eventLogin = () => {
       if (element.tagName == "INPUT" && element.value !== "") {
         body[element.name] = element.value;
       }
-      console.log(body);
+      // console.log(body);
     });
     const check = await requestLogin(body);
-    console.log(check);
+    // console.log(check);
   });
 };
 

@@ -1,26 +1,42 @@
-import {
-  requestListAllUsers,
-  requestListAllDepartments,
-} from "../scripts/requests.js";
+import { requestListAllUsers } from "../scripts/requests.js";
+import { requestListAllDepartments } from "../scripts/requests.js";
 import { requestListCompanies } from "../scripts/requests.js";
+import openModal from "../scripts/modals.js";
+import { editUser } from "../scripts/forms.js";
+import { removeUser } from "../scripts/forms.js";
+import {removeDepartment} from "../scripts/forms.js"
+import {editDepartmentDescription} from "../scripts/forms.js";
+import {createDepartment} from "../scripts/forms.js"
 
-const listAllUsers = await requestListAllUsers();
-const listAllDepartments = await requestListAllDepartments();
-const companies = await requestListCompanies();
+// const listAllDepartments = await requestListAllDepartments();
 // console.log(listAllUsers);
-console.log(listAllDepartments);
-console.log(companies);
+// console.log(listAllDepartments);
+// console.log(companies);
 // console.log(listAllUsers.department_uuid);
+
 
 const ulAllDepartments = document.querySelector("#ul-departmentList");
 const ulAllUsers = document.querySelector("#ul-userList");
 
-export const renderAllDepartments = (array, filter) => {
-  ulAllDepartments.innerHTML = "";
+export const createNewDepartment = async () => {
+  const buttonCreate = document.querySelector("#createDepartmentButton")
 
-  array.forEach((department) => {
+  buttonCreate.addEventListener("click", async () => {
+    const createDepart = await createDepartment();
+    openModal(createDepart);
+  
+  })
+}
+
+
+export const renderAllDepartments =  (array, filter) => {
+  ulAllDepartments.innerHTML = "";
+  const listAllDepartments = requestListAllDepartments();
+
+  array.forEach((department) =>  {
+    // console.log(department.companies.name)
     if (filter) {
-      if (department.description == filter) {
+      if (department.companies.name == filter) {
         const li = document.createElement("li");
         const divAbout = document.createElement("div");
         const departName = document.createElement("p");
@@ -44,9 +60,21 @@ export const renderAllDepartments = (array, filter) => {
 
         imgEdit.src = "../../images/adminIcons/pencil.png";
         imgEdit.alt = "editicon";
+        imgEdit.classList.add(`${user.uuid}`)
+
+        imgEdit.addEventListener("click", async () => {
+          const departmentEdit = editDepartmentDescription(department.description, department.uuid);
+          openModal(departmentEdit);
+        });
 
         imgTrash.src = "../../images/adminIcons/trash.png";
         imgTrash.alt = "trashicon";
+        imgTrash.classList.add(`${department.uuid}`)
+
+        imgTrash.addEventListener("click", async () => {
+          const departmentDelete = removeDepartment(department.name, department.uuid);
+          openModal(departmentDelete);
+        });
 
         divIcons.append(imgEye, imgEdit, imgTrash);
         divAbout.append(departName, departDescription, companyName);
@@ -77,9 +105,21 @@ export const renderAllDepartments = (array, filter) => {
 
       imgEdit.src = "../../images/adminIcons/pencil.png";
       imgEdit.alt = "editicon";
+      imgEdit.classList.add(`${department.uuid}`)
+
+      imgEdit.addEventListener("click", async () => {
+        const departmentEdit = editDepartmentDescription(department.description, department.uuid);
+        openModal(departmentEdit);
+      });
 
       imgTrash.src = "../../images/adminIcons/trash.png";
       imgTrash.alt = "trashicon";
+      imgTrash.classList.add(`${department.uuid}`)
+
+      imgTrash.addEventListener("click", async () => {
+        const departmentDelete = removeDepartment(department.name, department.uuid);
+        openModal(departmentDelete);
+      });
 
       divIcons.append(imgEye, imgEdit, imgTrash);
       divAbout.append(departName, departDescription, companyName);
@@ -89,9 +129,12 @@ export const renderAllDepartments = (array, filter) => {
   });
 };
 
-export const renderAllUsers = () => {
+export const renderAllUsers = async () => {
   ulAllUsers.innerHTML = "";
 
+  const listAllDepartments = await requestListAllDepartments();
+  const listAllUsers = await requestListAllUsers();
+  // console.log(await listAllUsers);
   listAllUsers.forEach((user) => {
     const departments = [...listAllDepartments];
 
@@ -125,10 +168,24 @@ export const renderAllUsers = () => {
     companyName.innerText = getDepartamentName();
 
     imgEdit.src = "../../images/adminIcons/bluepencil.png";
+    imgEdit.id = "editUserIcon";
     imgEdit.alt = "editicon";
+    imgEdit.classList.add(`${user.uuid}`)
+
+    imgEdit.addEventListener("click", async () => {
+      const userEdit = editUser(user.uuid);
+      openModal(userEdit);
+    });
 
     imgTrash.src = "../../images/adminIcons/trash.png";
+    imgTrash.id = "trashUserIcon";
     imgTrash.alt = "trashicon";
+    imgTrash.classList.add(`${user.uuid}`)
+
+    imgTrash.addEventListener("click", async () => {
+      const userDelete = removeUser(user.username, user.uuid);
+      openModal(userDelete);
+    });
 
     divIcons.append(imgEdit, imgTrash);
     divAbout.append(username, userProfessional_level, companyName);
@@ -137,7 +194,9 @@ export const renderAllUsers = () => {
   });
 };
 
-export const selectMenu = () => {
+export const selectMenu = async () => {
+  const companies = await requestListCompanies();
+  const listAllDepartments = await requestListAllDepartments();
   const selectList = document.querySelector("#company-list");
 
   const option = document.createElement("option");
@@ -146,7 +205,7 @@ export const selectMenu = () => {
 
   selectList.appendChild(option);
   selectList.addEventListener("change", (event) => {
-    // console.log(selectList.value);
+    console.log(selectList.value);
 
     if (selectList.value == "all-companies") {
       renderAllDepartments(listAllDepartments);
@@ -157,12 +216,14 @@ export const selectMenu = () => {
   });
 
   companies.forEach((company) => {
+    // console.log(company);
+    // console.log(company.description);
     const option0 = document.createElement("option");
 
     option0.innerText = company.name;
-    option0.name = company.description;
-    option0.id = company.description;
-    option0.value = company.description;
+    option0.name = company.name;
+    option0.id = company.name;
+    option0.value = company.name;
 
     selectList.append(option0);
   });

@@ -59,7 +59,7 @@ export const selectMenu = () => {
 
   selectList.appendChild(option);
   selectList.addEventListener("change", (event) => {
-    console.log(selectList.value);
+    // console.log(selectList.value);
 
     if (selectList.value == "all-sectors") {
       renderCompanies(companies);

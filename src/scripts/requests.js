@@ -50,6 +50,9 @@ export async function requestLogin(body) {
 
       requestValidateUser(response.token);
       // requestValidateUser(response);
+
+      console.log(response.token);
+      console.log(response);
     } else {
       console.log(err);
     }
@@ -72,7 +75,7 @@ export const requestValidateUser = async (token) => {
     const response = await request.json();
     const admin = response.is_admin;
 
-    // console.log(admin);
+    console.log(admin);
 
     if (admin === true) {
       localStorage.setItem("user-type", "adm");
@@ -127,8 +130,6 @@ export const requestUserProfileInfo = async () => {
     // console.log(request);
 
     const response = await request.json();
-    // console.log(response);
-    // localStorage.setItem("@userProfileInfo", JSON.stringify(response));
 
     return response;
   } catch (err) {
@@ -171,7 +172,7 @@ export const requestUserCompanyDepartment = async () => {
     // console.log(response.error);
     const response = await request.json();
     if (request.ok) {
-      console.log(request);
+      // console.log(request);
     } else {
       console.log(response.error);
     }
@@ -206,8 +207,9 @@ export async function requestUpdateUser(body) {
 
 export const requestListAllUsers = async () => {
   const localStorage = getLocalStorage();
+  // console.log(localStorage.token);
   try {
-    const request = await fetch(baseURL + "users", {
+    const request = await fetch(`${baseURL}users`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -215,6 +217,7 @@ export const requestListAllUsers = async () => {
       },
     });
     const response = await request.json();
+    // console.log(response);
 
     return response;
   } catch (err) {
@@ -253,6 +256,7 @@ export const requestUpdateEmployee = async (body, id) => {
     });
 
     const response = await request.json();
+    console.log(response);
 
     return response;
   } catch (err) {
@@ -414,10 +418,10 @@ export async function requestDismissEmployee(id) {
   }
 }
 
-export async function requestEditDepartment(uuid) {
+export async function requestEditDepartment(body, uuid) {
   const localStorage = getLocalStorage();
   try {
-    const request = await fetch(baseURL + "dismiss/" + uuid, {
+    const request = await fetch(baseURL + "departments/" + uuid, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
@@ -427,7 +431,7 @@ export async function requestEditDepartment(uuid) {
     });
 
     const response = await request.json();
-
+console.log(response);
     return response;
   } catch (err) {
     console.log(err);
@@ -462,36 +466,3 @@ export const requestDeleteDepartment = async (id) => {
     console.log(err);
   }
 };
-
-
-
-
-
-// .then((response) => {
-//   if(response.ok) {
-//     return response.json()
-//   } else {
-//     alert(response.json().then(response => response.message))
-//   }
-// })
-// .then(response => {
-//   localStorage.setItem("user", response.token);
-//   requestValidateUser(response.token)
-// })
-
-// .then((response) => {
-//   if(response.ok) {
-//     return response.json();
-//   } else {
-//     alert(response.json().then(response => response.message))
-//   }
-// })
-// .then((response) => {
-//   if(response) {
-//     localStorage.setItem("user-type", "adm");
-//     window.location.replace("../../admin/index.html")
-//   } else {
-//     localStorage.setItem("user-type", "user");
-//     window.location.replace("../../user/index.html")
-//   }
-// })
