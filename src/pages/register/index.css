@@ -35,7 +35,7 @@
   font-weight: 400;
   font-size: 18px;
   line-height: 22px;
-  color: #000000;
+  color: var(--color-400);
 }
 
 .TitleForm {
@@ -47,5 +47,5 @@
   font-weight: 700;
   font-size: 40px;
   line-height: 60px;
-  color: #000000;
+  color: var(--color-400);
 }
