@@ -62,7 +62,8 @@ export const renderCompanyAndDepartmentName = async () => {
 
     titleCompanyName.classList.add("hidden");
 
-    // renderUnemployed() // função esta comentada
+    // função esta comentada
+    renderUnemployed() 
 
   } else {
     const company = [...companyInfo.departments];
@@ -117,16 +118,16 @@ export const renderDepartmentCoworkers = async () => {
   });
 };
 
-// const renderUnemployed = () => {
-//     ulCoworkers.innerHTML = ""
+const renderUnemployed = () => {
+    ulCoworkers.innerHTML = ""
     
-//     const li = document.createElement("li");
-//     const pText = document.createElement("p");
+    const li = document.createElement("li");
+    const pText = document.createElement("p");
 
-//     li.classList.add("cardsUnemployed");
+    li.classList.add("cardsUnemployed");
 
-//     pText.innerText = "Você ainda não foi contratado"
+    pText.innerText = "Você ainda não foi contratado"
 
-//     li.append(pText);
-//     ulCoworkers.append(li)
-// }
+    li.append(pText);
+    ulCoworkers.append(li)
+}

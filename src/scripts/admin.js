@@ -57,8 +57,8 @@ export const renderAllDepartments = (array, filter) => {
         imgEye.alt = "eyeicon";
         imgEye.addEventListener("click", async () => {
           const hireButton = eyeFunction(
-            department.description,
-            department.name
+            // department.description,
+            // department.name
           );
           openModal(hireButton);
         });

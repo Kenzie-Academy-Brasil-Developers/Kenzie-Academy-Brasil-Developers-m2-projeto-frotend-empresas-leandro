@@ -240,7 +240,7 @@ export const editDepartmentDescription = (description, id) => {
   buttonEdit.classList = "big-button button-default button-style-200";
 
   h2.innerText = "Editar Departamento";
-  textArea.placeholder = `${description}`; 
+  textArea.placeholder = `${description}`;
   buttonEdit.innerText = "Salvar alterações";
 
   formulario.addEventListener("submit", async (event) => {
@@ -329,9 +329,17 @@ export const createDepartment = async () => {
   return formulario;
 };
 
+// const listAllUsers = await requestListAllUsers();
+// console.log(listAllUsers);
+
 export const eyeFunction = async () => {
   const backgroundModal = document.getElementById("backgroundModal");
   const listAllUsers = await requestListAllUsers();
+  const listAllDepartments = await requestListAllDepartments();
+
+  console.log(listAllUsers);
+  console.log(listAllDepartments);
+
 
   const formulario = document.createElement("form");
   formulario.classList.add("formbase");
@@ -343,9 +351,8 @@ export const eyeFunction = async () => {
   const pCompanyName = document.createElement("p");
 
   const divRight = document.createElement("div");
-  const selectList = document.createElement("select");
   const buttonHire = document.createElement("button");
-
+  const selectList = document.createElement("select");
   const option = document.createElement("option");
 
   buttonHire.classList = "button-default button-style-300";
@@ -356,29 +363,29 @@ export const eyeFunction = async () => {
   pCompanyName.innerText = "Empresa pertencente";
 
   option.innerText = "Selecionar usuário";
-  // option.value = "all-companies";
+  // option.value = "all-companies"; 
 
   divLeft.append(pDepartDescription, pCompanyName);
   selectList.appendChild(option);
   divRight.append(selectList, buttonHire);
   formulario.append(h2, divLeft, divRight);
 
-  formulario.addEventListener("submit", async (event) => {
-    // console.log(event.target.elements);
-    // console.log(selectList.value);
-    // event.preventDefault()
+  // formulario.addEventListener("submit", async (event) => {
+  //   // console.log(event.target.elements);C
+  //   // console.log(selectList.value);
+  //   // event.preventDefault()
 
-    const body = {
-      user_uuid: "18c1e797-420e-414c-a521-a78c71e4d4d5",
-      department_uuid: "e66f05d9-6093-4e32-9f70-4bcc213e53a5",
-    };
+  //   const body = {
+  //     user_uuid: "18c1e797-420e-414c-a521-a78c71e4d4d5",
+  //     department_uuid: "e66f05d9-6093-4e32-9f70-4bcc213e53a5",
+  //   };
 
-    await requestHireEmployee(body).then(() => {
-      // renderAllDepartments()
-      backgroundModal.remove();
-      window.location.reload();
-    });
-  });
+  //   await requestHireEmployee(body).then(() => {
+  //     // renderAllDepartments()
+  //     backgroundModal.remove();
+  //     // window.location.reload();
+  //   });
+  // });
 
   listAllUsers.forEach((user) => {
     // console.log(user);
@@ -395,8 +402,6 @@ export const eyeFunction = async () => {
   return formulario;
 };
 
-// const listAllDepartments = await requestListAllDepartments();
-// // const listAllUsers = await requestListAllUsers();
 // // console.log(await listAllUsers);
 // listAllUsers.forEach((user) => {
 //   const departments = [...listAllDepartments];
