@@ -337,7 +337,7 @@ export const eyeFunction = async (description, name, id) => {
   const listAllDepartments = await requestListAllDepartments();
 
   console.log(listAllUsers);
-  console.log(listAllDepartments);
+  // console.log(listAllDepartments);
 
   const formulario = document.createElement("form");
   formulario.classList.add("formbase");
@@ -359,7 +359,7 @@ export const eyeFunction = async (description, name, id) => {
   divRight.classList.add("divRightEye");
   buttonHire.classList = "button-default button-style-300";
   selectList.classList.add("input-default");
-  pDepartDescription.classList.add("pDescriptionText")
+  pDepartDescription.classList.add("pDescriptionText");
 
   h2.innerText = "Nome Departamento";
   pDepartDescription.innerText = `${description}`;
@@ -376,32 +376,32 @@ export const eyeFunction = async (description, name, id) => {
   formulario.append(h2, sectionTop);
 
   formulario.addEventListener("submit", async (event) => {
-    // console.log(event.target.elements);
-    console.log(event.target.elements[0].value);
-    // console.log(selectList.value);
     event.preventDefault();
+
+    // console.log(event.target.elements);
+    // console.log(event.target.elements[0].value);
+    // console.log(selectList.value);
 
     const body = {
       user_uuid: event.target.elements[0].value,
       department_uuid: id,
     };
 
-    console.log(body);
+    // console.log(body);
     await requestHireEmployee(body).then(() => {
       const buttonHidden = document.querySelector(".hidden");
 
       buttonHidden.classList.toggle("hidden");
 
-      // renderListAllUsers()
       // backgroundModal.remove();
-
+      // renderEyeModalUserCards()
       window.location.reload();
     });
   });
 
   listAllUsers.forEach((user) => {
     // console.log(user);
-    if (user.username !== "ADMIN") {
+    if (user.username !== "ADMIN" || user.department_uuid !== null) {
       const option0 = document.createElement("option");
       option0.innerText = user.username;
       option0.name = user.username;
@@ -410,10 +410,19 @@ export const eyeFunction = async (description, name, id) => {
       selectList.append(option0);
     }
   });
+
+
+
+
   const sectionBottom = document.createElement("section");
   const ul = document.createElement("ul");
 
+  ul.innerHTML = ""
+
+
   listAllUsers.forEach((user) => {
+
+    
     const departments = [...listAllDepartments];
 
     const getDepartamentName = () => {
@@ -428,47 +437,123 @@ export const eyeFunction = async (description, name, id) => {
       return depart;
     };
 
-    // if (user.username !== "ADMIN") {
-      if (user.username !== "ADMIN" && user.department_uuid == listAllDepartments.uuid && user.department_uuid == null) {
+    if (user.username !== "ADMIN") {
+      // if (user.username !== "ADMIN" && user.department_uuid == listAllDepartments.uuid || user.department_uuid == null) {
+        const renderEyeModalUserCards = () => {
+        // ul.innerHTML = ""
+        const li = document.createElement("li");
+        const divAbout = document.createElement("div");
+        const username = document.createElement("p");
+        const userProfessional_level = document.createElement("p");
+        const companyName = document.createElement("p");
+        const divButton = document.createElement("div");
+        const button = document.createElement("button");
+
+        sectionBottom.classList.add("bottomSectionEye");
+        ul.classList.add("ulBottomEye");
+        li.classList.add("liBottomEye");
+        divAbout.classList = "div-about divAboutEye";
+        divButton.classList.add("divButtonEye");
+        button.classList = "button-default button-style-400";
+
+        if (user.department_uuid == null) {
+          button.classList.add("hidden");
+        }
+
+        button.addEventListener("click", (event) => {
+          // event.preventDefault();
+          renderEyeModalUserCards()
+          requestDismissEmployee(user.uuid);
+        });
+
+        username.innerText = user.username;
+        userProfessional_level.innerText = user.professional_level;
+        companyName.innerText = getDepartamentName();
+        button.innerText = "Desligar";
+
+        divAbout.append(username, userProfessional_level, companyName);
+        divButton.append(button);
+        li.append(divAbout, divButton);
+        ul.append(li);
+        sectionBottom.append(ul);
+        formulario.append(sectionBottom);
+      };
       // ul.innerHTML = ""
-
-      const li = document.createElement("li");
-      const divAbout = document.createElement("div");
-      const username = document.createElement("p");
-      const userProfessional_level = document.createElement("p");
-      const companyName = document.createElement("p");
-      const divButton = document.createElement("div");
-      const button = document.createElement("button");
-
-      sectionBottom.classList.add("bottomSectionEye");
-      ul.classList.add("ulBottomEye");
-      li.classList.add("liBottomEye");
-      divAbout.classList = "div-about divAboutEye";
-      divButton.classList.add("divButtonEye");
-      button.classList = "button-default button-style-400";
-
-      if (user.department_uuid == null) {
-        button.classList.add("hidden");
-      }
-
-      button.addEventListener("click", (event) => {
-        event.preventDefault()
-        requestDismissEmployee(user.uuid);
-      });
-
-      username.innerText = user.username;
-      userProfessional_level.innerText = user.professional_level;
-      companyName.innerText = getDepartamentName();
-      button.innerText = "Desligar";
-
-      divAbout.append(username, userProfessional_level, companyName);
-      divButton.append(button);
-      li.append(divAbout, divButton);
-      ul.append(li);
-      sectionBottom.append(ul);
-      formulario.append(sectionBottom);
+      renderEyeModalUserCards()
     }
   });
 
   return formulario;
 };
+
+
+//   // ul.innerHTML = ""
+
+//   const listAllUsers = await requestListAllUsers();
+//   const listAllDepartments = await requestListAllDepartments();
+//   const ul = document.querySelector("#ulCardsEye")
+//         console.log(ul);
+
+
+//   const renderAllCardsUsers = () => {
+
+//   listAllUsers.forEach((user) => {
+
+//     // if (user.username !== "ADMIN") {
+//       // if (user.username !== "ADMIN" && user.department_uuid == listAllDepartments.uuid || user.department_uuid == null) {
+    
+//     const departments = [...listAllDepartments];
+
+//     const getDepartamentName = () => {
+//       let depart = "";
+
+//       departments.forEach((department) => {
+//         // console.log(department);
+//         if (department.uuid === user.department_uuid) {
+//           depart = department.companies.name;
+//         }
+//       });
+//       return depart;
+//     };
+
+
+
+//         const li = document.createElement("li");
+//         const divAbout = document.createElement("div");
+//         const username = document.createElement("p");
+//         const userProfessional_level = document.createElement("p");
+//         const companyName = document.createElement("p");
+//         const divButton = document.createElement("div");
+//         const button = document.createElement("button");
+
+
+//         li.classList.add("liBottomEye");
+//         divAbout.classList = "div-about divAboutEye";
+//         divButton.classList.add("divButtonEye");
+//         button.classList = "button-default button-style-400";
+
+//         if (user.department_uuid == null) {
+//           button.classList.add("hidden");
+//         }
+
+//         button.addEventListener("click", (event) => {
+//           // event.preventDefault();
+//           renderEyeModalUserCards()
+//           requestDismissEmployee(user.uuid);
+//         });
+
+//         username.innerText = user.username;
+//         userProfessional_level.innerText = user.professional_level;
+//         companyName.innerText = getDepartamentName();
+//         button.innerText = "Desligar";
+
+//         divAbout.append(username, userProfessional_level, companyName);
+//         divButton.append(button);
+//         li.append(divAbout, divButton);
+//         // ul.append(li);
+//       // };
+//       // ul.innerHTML = ""
+//       // renderEyeModalUserCards()
+//   })
+// }
+// renderAllCardsUsers()
