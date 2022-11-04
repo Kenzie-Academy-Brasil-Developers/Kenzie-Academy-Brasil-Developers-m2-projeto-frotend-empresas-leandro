@@ -329,23 +329,20 @@ export const createDepartment = async () => {
   return formulario;
 };
 
-// const listAllUsers = await requestListAllUsers();
-// console.log(listAllUsers);
-
 export const eyeFunction = async () => {
   const backgroundModal = document.getElementById("backgroundModal");
   const listAllUsers = await requestListAllUsers();
   const listAllDepartments = await requestListAllDepartments();
 
-  console.log(listAllUsers);
-  console.log(listAllDepartments);
-
+  // console.log(listAllUsers);
+  // console.log(listAllDepartments);
 
   const formulario = document.createElement("form");
   formulario.classList.add("formbase");
 
   const h2 = document.createElement("h2");
 
+  const sectionTop = document.createElement("section")
   const divLeft = document.createElement("div");
   const pDepartDescription = document.createElement("p");
   const pCompanyName = document.createElement("p");
@@ -355,87 +352,108 @@ export const eyeFunction = async () => {
   const selectList = document.createElement("select");
   const option = document.createElement("option");
 
+  sectionTop.classList.add("topSectionEye")
+  divLeft.classList.add("divLeftEye")
+  divRight.classList.add("divRightEye")
   buttonHire.classList = "button-default button-style-300";
   selectList.classList.add("input-default");
 
   h2.innerText = "Nome Departamento";
   pDepartDescription.innerText = "Descrição do departamento";
   pCompanyName.innerText = "Empresa pertencente";
+  buttonHire.innerText = "Contratar"
 
   option.innerText = "Selecionar usuário";
   // option.value = "all-companies"; 
 
+
   divLeft.append(pDepartDescription, pCompanyName);
   selectList.appendChild(option);
   divRight.append(selectList, buttonHire);
-  formulario.append(h2, divLeft, divRight);
+  sectionTop.append(divLeft, divRight)
+  formulario.append(h2, sectionTop);
 
-  // formulario.addEventListener("submit", async (event) => {
-  //   // console.log(event.target.elements);C
-  //   // console.log(selectList.value);
-  //   // event.preventDefault()
+  formulario.addEventListener("submit", async (event) => {
+    // console.log(event.target.elements);
+    console.log(event.target.elements[0].value)
+    // console.log(selectList.value);
+    event.preventDefault()
 
-  //   const body = {
-  //     user_uuid: "18c1e797-420e-414c-a521-a78c71e4d4d5",
-  //     department_uuid: "e66f05d9-6093-4e32-9f70-4bcc213e53a5",
-  //   };
+    const body = {
+      user_uuid: event.target.elements[0].value,
+      department_uuid: event.target.elements[0].id,
+    };
 
-  //   await requestHireEmployee(body).then(() => {
-  //     // renderAllDepartments()
-  //     backgroundModal.remove();
-  //     // window.location.reload();
-  //   });
-  // });
+    console.log(body);
+    // await requestHireEmployee(body).then(() => {
+    //   // renderAllDepartments()
+    //   backgroundModal.remove();
+    //   // window.location.reload();
+    // });
+  });
 
   listAllUsers.forEach((user) => {
     // console.log(user);
     const option0 = document.createElement("option");
 
-    option0.innerText = user.name;
-    option0.name = user.name;
-    option0.id = user.name;
+    option0.innerText = user.username;
+    option0.name = user.username;
+    option0.id = user.department_uuid;
     option0.value = user.uuid;
 
     selectList.append(option0);
   });
+  const sectionBottom = document.createElement("section")
+  const ul = document.createElement("ul")
+
+  listAllUsers.forEach((user) => {
+      const departments = [...listAllDepartments];
+    
+      const getDepartamentName = () => {
+        let depart = "";  
+        
+        departments.forEach((department) => {
+          // console.log(department);
+          if (department.uuid === user.department_uuid) {
+            depart = department.companies.name;
+          }
+        });
+        return depart;
+      };
+
+      if(user.username !== "ADMIN") {
+
+        
+        const li = document.createElement("li");
+        const divAbout = document.createElement("div");
+        const username = document.createElement("p");
+        const userProfessional_level = document.createElement("p");
+        const companyName = document.createElement("p");
+        const divButton = document.createElement("div")
+        const button = document.createElement("button")
+
+        sectionBottom.classList.add("bottomSectionEye")
+        ul.classList.add("ulBottomEye")
+        li.classList.add("liBottomEye");
+        divAbout.classList = "div-about divAboutEye";
+        divButton.classList.add("divButtonEye")
+        button.classList = "hidden button-default button-style-400"
+        
+        username.innerText = user.username;
+        userProfessional_level.innerText = user.professional_level;
+        companyName.innerText = getDepartamentName();
+        button.innerText = "Desligar"
+
+        divAbout.append(username, userProfessional_level, companyName);
+        divButton.append(button)
+        li.append(divAbout, divButton);
+        ul.append(li)
+        sectionBottom.append(ul)
+        formulario.append(sectionBottom)
+
+      }
+    })
+    
 
   return formulario;
 };
-
-// // console.log(await listAllUsers);
-// listAllUsers.forEach((user) => {
-//   const departments = [...listAllDepartments];
-
-//   const getDepartamentName = () => {
-//     let depart = "";
-
-//     departments.forEach((department) => {
-//       // console.log(department);
-//       if (department.uuid === user.department_uuid) {
-//         depart = department.companies.name;
-//       }
-//     });
-//     return depart;
-//   };
-
-//   const ul = document.createElement("ul")
-//   const li = document.createElement("li");
-//   const divAbout = document.createElement("div");
-//   const username = document.createElement("p");
-//   const userProfessional_level = document.createElement("p");
-//   const companyName = document.createElement("p");
-//   const divIcons = document.createElement("div");
-
-//   li.classList.add("li-department-card");
-//   divAbout.classList.add("div-about");
-//   divIcons.classList.add("div-icons");
-
-//   username.innerText = user.username;
-//   userProfessional_level.innerText = user.professional_level;
-//   companyName.innerText = getDepartamentName();
-
-//   divAbout.append(username, userProfessional_level, companyName);
-//   li.append(divAbout);
-//   ul.append(li)
-//   formulario.append(ul)
-// })

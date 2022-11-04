@@ -56,11 +56,9 @@ export const renderAllDepartments = (array, filter) => {
         imgEye.src = "../../images/adminIcons/eye.png";
         imgEye.alt = "eyeicon";
         imgEye.addEventListener("click", async () => {
-          const hireButton = eyeFunction(
-            // department.description,
-            // department.name
-          );
-          openModal(hireButton);
+          // console.log("oi");
+          const hireButton = await eyeFunction();
+          openModal(eyeFunction());
         });
 
         imgEdit.src = "../../images/adminIcons/pencil.png";
@@ -114,10 +112,10 @@ export const renderAllDepartments = (array, filter) => {
       imgEye.src = "../../images/adminIcons/eye.png";
       imgEye.alt = "eyeicon";
       imgEye.addEventListener("click", async () => {
-        const hireButton =
-          eyeFunction();
-          // department.description,
-          // department.name
+        const hireButton = await eyeFunction();
+        // console.log(hireButton);
+        // department.description,
+        // department.name
         openModal(hireButton);
       });
 
@@ -163,7 +161,7 @@ export const renderAllUsers = async () => {
     const departments = [...listAllDepartments];
 
     const getDepartamentName = () => {
-      let depart = "";
+      let depart = "Desempregado";
 
       departments.forEach((department) => {
         // console.log(department);
@@ -173,48 +171,49 @@ export const renderAllUsers = async () => {
       });
       return depart;
     };
-
-    const li = document.createElement("li");
-    const divAbout = document.createElement("div");
-    const username = document.createElement("p");
-    const userProfessional_level = document.createElement("p");
-    const companyName = document.createElement("p");
-    const divIcons = document.createElement("div");
-    const imgEdit = document.createElement("img");
-    const imgTrash = document.createElement("img");
-
-    li.classList.add("li-department-card");
-    divAbout.classList.add("div-about");
-    divIcons.classList.add("div-icons");
-
-    username.innerText = user.username;
-    userProfessional_level.innerText = user.professional_level;
-    companyName.innerText = getDepartamentName();
-
-    imgEdit.src = "../../images/adminIcons/bluepencil.png";
-    imgEdit.id = "editUserIcon";
-    imgEdit.alt = "editicon";
-    imgEdit.classList.add(`${user.uuid}`);
-
-    imgEdit.addEventListener("click", async () => {
-      const userEdit = editUser(user.uuid);
-      openModal(userEdit);
-    });
-
-    imgTrash.src = "../../images/adminIcons/trash.png";
-    imgTrash.id = "trashUserIcon";
-    imgTrash.alt = "trashicon";
-    imgTrash.classList.add(`${user.uuid}`);
-
-    imgTrash.addEventListener("click", async () => {
-      const userDelete = removeUser(user.username, user.uuid);
-      openModal(userDelete);
-    });
-
-    divIcons.append(imgEdit, imgTrash);
-    divAbout.append(username, userProfessional_level, companyName);
-    li.append(divAbout, divIcons);
-    ulAllUsers.appendChild(li);
+    if (user.username !== "ADMIN") {
+      const li = document.createElement("li");
+      const divAbout = document.createElement("div");
+      const username = document.createElement("p");
+      const userProfessional_level = document.createElement("p");
+      const companyName = document.createElement("p");
+      const divIcons = document.createElement("div");
+      const imgEdit = document.createElement("img");
+      const imgTrash = document.createElement("img");
+  
+      li.classList.add("li-department-card");
+      divAbout.classList.add("div-about");
+      divIcons.classList.add("div-icons");
+  
+      username.innerText = user.username;
+      userProfessional_level.innerText = user.professional_level;
+      companyName.innerText = getDepartamentName();
+  
+      imgEdit.src = "../../images/adminIcons/bluepencil.png";
+      imgEdit.id = "editUserIcon";
+      imgEdit.alt = "editicon";
+      imgEdit.classList.add(`${user.uuid}`);
+  
+      imgEdit.addEventListener("click", async () => {
+        const userEdit = editUser(user.uuid);
+        openModal(userEdit);
+      });
+  
+      imgTrash.src = "../../images/adminIcons/trash.png";
+      imgTrash.id = "trashUserIcon";
+      imgTrash.alt = "trashicon";
+      imgTrash.classList.add(`${user.uuid}`);
+  
+      imgTrash.addEventListener("click", async () => {
+        const userDelete = removeUser(user.username, user.uuid);
+        openModal(userDelete);
+      });
+  
+      divIcons.append(imgEdit, imgTrash);
+      divAbout.append(username, userProfessional_level, companyName);
+      li.append(divAbout, divIcons);
+      ulAllUsers.appendChild(li);
+    }
   });
 };
 
