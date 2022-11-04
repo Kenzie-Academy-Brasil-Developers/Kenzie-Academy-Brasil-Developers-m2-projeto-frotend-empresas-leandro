@@ -107,14 +107,7 @@ formulario {
 }
 
 .bottomSectionEye {
-  /* display: flex; */
-  /* flex-direction: row; */
-  /* width: 100%; */
-  /* width: 814px; */
-  /* height: 50%; */
   background: #f8f8f8;
-  /* overflow-y: auto; */
-
 }
 
 .ulBottomEye {
@@ -135,8 +128,8 @@ formulario {
   gap: 9px;
   min-width: 306px;
   height: 100%;
-  background: #ffffff;
-  border-bottom: 1px solid #4200ff;
+  background: var(--color-500);
+  border-bottom: 1px solid var(--color-100);
   list-style: none;
 }
 
@@ -149,6 +142,17 @@ formulario {
   /* align-items: center; */
   justify-content: center;
   height: 33%;
+}
+
+.pDescriptionText {
+  width: 289px;
+  height: 30px;
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 30px;
+  color: var(--color-400);
 }
 
 .hidden {

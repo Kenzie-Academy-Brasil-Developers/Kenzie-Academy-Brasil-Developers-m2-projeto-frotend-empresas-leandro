@@ -402,7 +402,7 @@ export async function requestHireEmployee(body) {
 export async function requestDismissEmployee(id) {
   const localStorage = getLocalStorage();
   try {
-    const request = await fetch(baseURL + "dismiss/" + id, {
+    const request = await fetch(baseURL + "departments/" + "dismiss/" + id, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",

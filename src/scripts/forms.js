@@ -15,6 +15,8 @@ import { requestListCompanies } from "./requests.js";
 import { requestCreateDepartment } from "./requests.js";
 
 import { requestListAllDepartments } from "./requests.js";
+import { requestHireEmployee } from "./requests.js";
+import { requestDismissEmployee } from "./requests.js";
 
 export const editProfile = () => {
   const formulario = document.createElement("form");
@@ -329,20 +331,20 @@ export const createDepartment = async () => {
   return formulario;
 };
 
-export const eyeFunction = async () => {
+export const eyeFunction = async (description, name, id) => {
   const backgroundModal = document.getElementById("backgroundModal");
   const listAllUsers = await requestListAllUsers();
   const listAllDepartments = await requestListAllDepartments();
 
-  // console.log(listAllUsers);
-  // console.log(listAllDepartments);
+  console.log(listAllUsers);
+  console.log(listAllDepartments);
 
   const formulario = document.createElement("form");
   formulario.classList.add("formbase");
 
   const h2 = document.createElement("h2");
 
-  const sectionTop = document.createElement("section")
+  const sectionTop = document.createElement("section");
   const divLeft = document.createElement("div");
   const pDepartDescription = document.createElement("p");
   const pCompanyName = document.createElement("p");
@@ -352,108 +354,121 @@ export const eyeFunction = async () => {
   const selectList = document.createElement("select");
   const option = document.createElement("option");
 
-  sectionTop.classList.add("topSectionEye")
-  divLeft.classList.add("divLeftEye")
-  divRight.classList.add("divRightEye")
+  sectionTop.classList.add("topSectionEye");
+  divLeft.classList.add("divLeftEye");
+  divRight.classList.add("divRightEye");
   buttonHire.classList = "button-default button-style-300";
   selectList.classList.add("input-default");
+  pDepartDescription.classList.add("pDescriptionText")
 
   h2.innerText = "Nome Departamento";
-  pDepartDescription.innerText = "Descrição do departamento";
-  pCompanyName.innerText = "Empresa pertencente";
-  buttonHire.innerText = "Contratar"
+  pDepartDescription.innerText = `${description}`;
+  pCompanyName.innerText = `${name}`;
+  buttonHire.innerText = "Contratar";
 
   option.innerText = "Selecionar usuário";
-  // option.value = "all-companies"; 
-
+  // option.value = "all-companies";
 
   divLeft.append(pDepartDescription, pCompanyName);
   selectList.appendChild(option);
   divRight.append(selectList, buttonHire);
-  sectionTop.append(divLeft, divRight)
+  sectionTop.append(divLeft, divRight);
   formulario.append(h2, sectionTop);
 
   formulario.addEventListener("submit", async (event) => {
     // console.log(event.target.elements);
-    console.log(event.target.elements[0].value)
+    console.log(event.target.elements[0].value);
     // console.log(selectList.value);
-    event.preventDefault()
+    event.preventDefault();
 
     const body = {
       user_uuid: event.target.elements[0].value,
-      department_uuid: event.target.elements[0].id,
+      department_uuid: id,
     };
 
     console.log(body);
-    // await requestHireEmployee(body).then(() => {
-    //   // renderAllDepartments()
-    //   backgroundModal.remove();
-    //   // window.location.reload();
-    // });
+    await requestHireEmployee(body).then(() => {
+      const buttonHidden = document.querySelector(".hidden");
+
+      buttonHidden.classList.toggle("hidden");
+
+      // renderListAllUsers()
+      // backgroundModal.remove();
+
+      window.location.reload();
+    });
   });
 
   listAllUsers.forEach((user) => {
     // console.log(user);
-    const option0 = document.createElement("option");
-
-    option0.innerText = user.username;
-    option0.name = user.username;
-    option0.id = user.department_uuid;
-    option0.value = user.uuid;
-
-    selectList.append(option0);
+    if (user.username !== "ADMIN") {
+      const option0 = document.createElement("option");
+      option0.innerText = user.username;
+      option0.name = user.username;
+      option0.id = user.department_uuid;
+      option0.value = user.uuid;
+      selectList.append(option0);
+    }
   });
-  const sectionBottom = document.createElement("section")
-  const ul = document.createElement("ul")
+  const sectionBottom = document.createElement("section");
+  const ul = document.createElement("ul");
 
   listAllUsers.forEach((user) => {
-      const departments = [...listAllDepartments];
-    
-      const getDepartamentName = () => {
-        let depart = "";  
-        
-        departments.forEach((department) => {
-          // console.log(department);
-          if (department.uuid === user.department_uuid) {
-            depart = department.companies.name;
-          }
-        });
-        return depart;
-      };
+    const departments = [...listAllDepartments];
 
-      if(user.username !== "ADMIN") {
+    const getDepartamentName = () => {
+      let depart = "";
 
-        
-        const li = document.createElement("li");
-        const divAbout = document.createElement("div");
-        const username = document.createElement("p");
-        const userProfessional_level = document.createElement("p");
-        const companyName = document.createElement("p");
-        const divButton = document.createElement("div")
-        const button = document.createElement("button")
+      departments.forEach((department) => {
+        // console.log(department);
+        if (department.uuid === user.department_uuid) {
+          depart = department.companies.name;
+        }
+      });
+      return depart;
+    };
 
-        sectionBottom.classList.add("bottomSectionEye")
-        ul.classList.add("ulBottomEye")
-        li.classList.add("liBottomEye");
-        divAbout.classList = "div-about divAboutEye";
-        divButton.classList.add("divButtonEye")
-        button.classList = "hidden button-default button-style-400"
-        
-        username.innerText = user.username;
-        userProfessional_level.innerText = user.professional_level;
-        companyName.innerText = getDepartamentName();
-        button.innerText = "Desligar"
+    // if (user.username !== "ADMIN") {
+      if (user.username !== "ADMIN" && user.department_uuid == listAllDepartments.uuid && user.department_uuid == null) {
+      // ul.innerHTML = ""
 
-        divAbout.append(username, userProfessional_level, companyName);
-        divButton.append(button)
-        li.append(divAbout, divButton);
-        ul.append(li)
-        sectionBottom.append(ul)
-        formulario.append(sectionBottom)
+      const li = document.createElement("li");
+      const divAbout = document.createElement("div");
+      const username = document.createElement("p");
+      const userProfessional_level = document.createElement("p");
+      const companyName = document.createElement("p");
+      const divButton = document.createElement("div");
+      const button = document.createElement("button");
 
+      sectionBottom.classList.add("bottomSectionEye");
+      ul.classList.add("ulBottomEye");
+      li.classList.add("liBottomEye");
+      divAbout.classList = "div-about divAboutEye";
+      divButton.classList.add("divButtonEye");
+      button.classList = "button-default button-style-400";
+
+      if (user.department_uuid == null) {
+        button.classList.add("hidden");
       }
-    })
-    
+
+      button.addEventListener("click", (event) => {
+        event.preventDefault()
+        requestDismissEmployee(user.uuid);
+      });
+
+      username.innerText = user.username;
+      userProfessional_level.innerText = user.professional_level;
+      companyName.innerText = getDepartamentName();
+      button.innerText = "Desligar";
+
+      divAbout.append(username, userProfessional_level, companyName);
+      divButton.append(button);
+      li.append(divAbout, divButton);
+      ul.append(li);
+      sectionBottom.append(ul);
+      formulario.append(sectionBottom);
+    }
+  });
 
   return formulario;
 };

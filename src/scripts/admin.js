@@ -112,7 +112,7 @@ export const renderAllDepartments = (array, filter) => {
       imgEye.src = "../../images/adminIcons/eye.png";
       imgEye.alt = "eyeicon";
       imgEye.addEventListener("click", async () => {
-        const hireButton = await eyeFunction();
+        const hireButton = await eyeFunction(department.description, department.name, department.uuid);
         // console.log(hireButton);
         // department.description,
         // department.name
@@ -161,7 +161,7 @@ export const renderAllUsers = async () => {
     const departments = [...listAllDepartments];
 
     const getDepartamentName = () => {
-      let depart = "Desempregado";
+      let depart = `Disponível para Contratação`;
 
       departments.forEach((department) => {
         // console.log(department);
