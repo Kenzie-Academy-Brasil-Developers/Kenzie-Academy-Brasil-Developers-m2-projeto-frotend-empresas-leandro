@@ -1,5 +1,5 @@
 import { renderUserInfo } from "./user.js";
-import { requestUpdateUser } from "./requests.js";
+import { requestListAllUsers, requestUpdateUser } from "./requests.js";
 
 import { requestUpdateEmployee } from "./requests.js";
 import { renderAllUsers } from "./admin.js";
@@ -11,8 +11,10 @@ import { renderAllDepartments } from "./admin.js";
 
 import { requestDeleteDepartment } from "./requests.js";
 
-import {requestListCompanies} from "./requests.js"
-import {requestCreateDepartment} from "./requests.js"
+import { requestListCompanies } from "./requests.js";
+import { requestCreateDepartment } from "./requests.js";
+
+import { requestListAllDepartments } from "./requests.js";
 
 export const editProfile = () => {
   const formulario = document.createElement("form");
@@ -179,7 +181,7 @@ export const removeUser = (name, id) => {
   buttonRemove.classList = "big-button button-default button-style-300";
 
   h2.innerText = `Realmente deseja remover o usuário ${name}?`;
-  h2.classList.add("titleRemoveModal")
+  h2.classList.add("titleRemoveModal");
 
   buttonRemove.innerText = "Deletar";
 
@@ -208,7 +210,7 @@ export const removeDepartment = (name, id) => {
   buttonRemove.classList = "big-button button-default button-style-300";
 
   h2.innerText = `Realmente deseja deletar o Departamento ${name} e demitir seus funcionários?`;
-  h2.classList.add("titleRemoveModal")
+  h2.classList.add("titleRemoveModal");
 
   buttonRemove.innerText = "Confirmar";
 
@@ -223,7 +225,7 @@ export const removeDepartment = (name, id) => {
   formulario.append(h2, buttonRemove);
 
   return formulario;
-}
+};
 
 export const editDepartmentDescription = (description, id) => {
   const formulario = document.createElement("form");
@@ -231,23 +233,23 @@ export const editDepartmentDescription = (description, id) => {
   formulario.classList.add("formbase");
 
   const h2 = document.createElement("h2");
-  const textArea = document.createElement("textarea")
+  const textArea = document.createElement("textarea");
   const buttonEdit = document.createElement("button");
 
-  textArea.classList.add("textArea")
+  textArea.classList.add("textArea");
   buttonEdit.classList = "big-button button-default button-style-200";
 
   h2.innerText = "Editar Departamento";
-  textArea.placeholder = `${description}` //falta fazer
+  textArea.placeholder = `${description}`; 
   buttonEdit.innerText = "Salvar alterações";
 
   formulario.addEventListener("submit", async (event) => {
     event.preventDefault();
     console.log(event.target.elements[0].value);
-    
+
     const backgroundModal = document.getElementById("backgroundModal");
     const body = {
-      "description": event.target.elements[0].value,
+      description: event.target.elements[0].value,
     };
     console.log(id);
 
@@ -258,56 +260,52 @@ export const editDepartmentDescription = (description, id) => {
     });
   });
 
-  formulario.append(
-    h2,
-    textArea,
-    buttonEdit
-  );
+  formulario.append(h2, textArea, buttonEdit);
 
   return formulario;
-}
+};
 
-export const createDepartment = async() => {
+export const createDepartment = async () => {
   const backgroundModal = document.getElementById("backgroundModal");
   const companies = await requestListCompanies();
 
   const formulario = document.createElement("form");
   formulario.classList.add("formbase");
 
-  const h2 = document.createElement("h2")
-  const selectList = document.createElement("select")
-  
+  const h2 = document.createElement("h2");
+  const selectList = document.createElement("select");
+
   const departmentName = document.createElement("input");
   const description = document.createElement("input");
   const option = document.createElement("option");
   const button = document.createElement("button");
 
-  departmentName.classList.add("input-default")
-  description.classList.add("input-default")
-  selectList.classList.add("input-default")
-  button.classList = "big-button button-default button-style-200"
+  departmentName.classList.add("input-default");
+  description.classList.add("input-default");
+  selectList.classList.add("input-default");
+  button.classList = "big-button button-default button-style-200";
 
-  h2.innerText = "Criar Departamento"
-  departmentName.placeholder = "Nome do departamento"
-  description.placeholder = "Descrição"
-  button.innerText = "Criar o departamento"
+  h2.innerText = "Criar Departamento";
+  departmentName.placeholder = "Nome do departamento";
+  description.placeholder = "Descrição";
+  button.innerText = "Criar o departamento";
 
   option.innerText = "Selecionar Empresa";
   option.value = "all-companies";
 
   selectList.appendChild(option);
-  formulario.append(h2, departmentName, description, selectList, button)
+  formulario.append(h2, departmentName, description, selectList, button);
 
   formulario.addEventListener("submit", async (event) => {
-    console.log(event.target.elements);
-    console.log(selectList.value);
-    event.preventDefault()
+    // console.log(event.target.elements);
+    // console.log(selectList.value);
+    // event.preventDefault()
 
     const body = {
-      "name": event.target.elements[0].value,
-      "description": event.target.elements[1].value,
-      "company_uuid": event.target.elements[2].value,
-    }
+      name: event.target.elements[0].value,
+      description: event.target.elements[1].value,
+      company_uuid: event.target.elements[2].value,
+    };
 
     await requestCreateDepartment(body).then(() => {
       // renderAllDepartments()
@@ -328,5 +326,111 @@ export const createDepartment = async() => {
     selectList.append(option0);
   });
 
-  return formulario
-}
+  return formulario;
+};
+
+export const eyeFunction = async () => {
+  const backgroundModal = document.getElementById("backgroundModal");
+  const listAllUsers = await requestListAllUsers();
+
+  const formulario = document.createElement("form");
+  formulario.classList.add("formbase");
+
+  const h2 = document.createElement("h2");
+
+  const divLeft = document.createElement("div");
+  const pDepartDescription = document.createElement("p");
+  const pCompanyName = document.createElement("p");
+
+  const divRight = document.createElement("div");
+  const selectList = document.createElement("select");
+  const buttonHire = document.createElement("button");
+
+  const option = document.createElement("option");
+
+  buttonHire.classList = "button-default button-style-300";
+  selectList.classList.add("input-default");
+
+  h2.innerText = "Nome Departamento";
+  pDepartDescription.innerText = "Descrição do departamento";
+  pCompanyName.innerText = "Empresa pertencente";
+
+  option.innerText = "Selecionar usuário";
+  // option.value = "all-companies";
+
+  divLeft.append(pDepartDescription, pCompanyName);
+  selectList.appendChild(option);
+  divRight.append(selectList, buttonHire);
+  formulario.append(h2, divLeft, divRight);
+
+  formulario.addEventListener("submit", async (event) => {
+    // console.log(event.target.elements);
+    // console.log(selectList.value);
+    // event.preventDefault()
+
+    const body = {
+      user_uuid: "18c1e797-420e-414c-a521-a78c71e4d4d5",
+      department_uuid: "e66f05d9-6093-4e32-9f70-4bcc213e53a5",
+    };
+
+    await requestHireEmployee(body).then(() => {
+      // renderAllDepartments()
+      backgroundModal.remove();
+      window.location.reload();
+    });
+  });
+
+  listAllUsers.forEach((user) => {
+    // console.log(user);
+    const option0 = document.createElement("option");
+
+    option0.innerText = user.name;
+    option0.name = user.name;
+    option0.id = user.name;
+    option0.value = user.uuid;
+
+    selectList.append(option0);
+  });
+
+  return formulario;
+};
+
+// const listAllDepartments = await requestListAllDepartments();
+// // const listAllUsers = await requestListAllUsers();
+// // console.log(await listAllUsers);
+// listAllUsers.forEach((user) => {
+//   const departments = [...listAllDepartments];
+
+//   const getDepartamentName = () => {
+//     let depart = "";
+
+//     departments.forEach((department) => {
+//       // console.log(department);
+//       if (department.uuid === user.department_uuid) {
+//         depart = department.companies.name;
+//       }
+//     });
+//     return depart;
+//   };
+
+//   const ul = document.createElement("ul")
+//   const li = document.createElement("li");
+//   const divAbout = document.createElement("div");
+//   const username = document.createElement("p");
+//   const userProfessional_level = document.createElement("p");
+//   const companyName = document.createElement("p");
+//   const divIcons = document.createElement("div");
+
+//   li.classList.add("li-department-card");
+//   divAbout.classList.add("div-about");
+//   divIcons.classList.add("div-icons");
+
+//   username.innerText = user.username;
+//   userProfessional_level.innerText = user.professional_level;
+//   companyName.innerText = getDepartamentName();
+
+//   divAbout.append(username, userProfessional_level, companyName);
+//   li.append(divAbout);
+//   ul.append(li)
+//   formulario.append(ul)
+// })

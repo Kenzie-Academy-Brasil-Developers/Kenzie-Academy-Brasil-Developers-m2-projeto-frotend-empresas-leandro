@@ -4,9 +4,10 @@ import { requestListCompanies } from "../scripts/requests.js";
 import openModal from "../scripts/modals.js";
 import { editUser } from "../scripts/forms.js";
 import { removeUser } from "../scripts/forms.js";
-import {removeDepartment} from "../scripts/forms.js"
-import {editDepartmentDescription} from "../scripts/forms.js";
-import {createDepartment} from "../scripts/forms.js"
+import { removeDepartment } from "../scripts/forms.js";
+import { editDepartmentDescription } from "../scripts/forms.js";
+import { createDepartment } from "../scripts/forms.js";
+import { eyeFunction } from "../scripts/forms.js";
 
 // const listAllDepartments = await requestListAllDepartments();
 // console.log(listAllUsers);
@@ -14,29 +15,26 @@ import {createDepartment} from "../scripts/forms.js"
 // console.log(companies);
 // console.log(listAllUsers.department_uuid);
 
-
 const ulAllDepartments = document.querySelector("#ul-departmentList");
 const ulAllUsers = document.querySelector("#ul-userList");
 
 export const createNewDepartment = async () => {
-  const buttonCreate = document.querySelector("#createDepartmentButton")
+  const buttonCreate = document.querySelector("#createDepartmentButton");
 
   buttonCreate.addEventListener("click", async () => {
     const createDepart = await createDepartment();
     openModal(createDepart);
-  
-  })
-}
+  });
+};
 
-
-export const renderAllDepartments =  (array, filter) => {
+export const renderAllDepartments = (array, filter) => {
   ulAllDepartments.innerHTML = "";
-  const listAllDepartments = requestListAllDepartments();
+  // const listAllDepartments = await requestListAllDepartments();
 
-  array.forEach((department) =>  {
-    // console.log(department.companies.name)
+  array.forEach((department) => {
+    // console.log(department.companies)
     if (filter) {
-      if (department.companies.name == filter) {
+      if (department.companies.name === filter) {
         const li = document.createElement("li");
         const divAbout = document.createElement("div");
         const departName = document.createElement("p");
@@ -57,22 +55,35 @@ export const renderAllDepartments =  (array, filter) => {
 
         imgEye.src = "../../images/adminIcons/eye.png";
         imgEye.alt = "eyeicon";
+        imgEye.addEventListener("click", async () => {
+          const hireButton = eyeFunction(
+            department.description,
+            department.name
+          );
+          openModal(hireButton);
+        });
 
         imgEdit.src = "../../images/adminIcons/pencil.png";
         imgEdit.alt = "editicon";
-        imgEdit.classList.add(`${user.uuid}`)
+        imgEdit.classList.add(`${department.uuid}`);
 
         imgEdit.addEventListener("click", async () => {
-          const departmentEdit = editDepartmentDescription(department.description, department.uuid);
+          const departmentEdit = editDepartmentDescription(
+            department.description,
+            department.uuid
+          );
           openModal(departmentEdit);
         });
 
         imgTrash.src = "../../images/adminIcons/trash.png";
         imgTrash.alt = "trashicon";
-        imgTrash.classList.add(`${department.uuid}`)
+        imgTrash.classList.add(`${department.uuid}`);
 
         imgTrash.addEventListener("click", async () => {
-          const departmentDelete = removeDepartment(department.name, department.uuid);
+          const departmentDelete = removeDepartment(
+            department.name,
+            department.uuid
+          );
           openModal(departmentDelete);
         });
 
@@ -102,22 +113,35 @@ export const renderAllDepartments =  (array, filter) => {
 
       imgEye.src = "../../images/adminIcons/eye.png";
       imgEye.alt = "eyeicon";
+      imgEye.addEventListener("click", async () => {
+        const hireButton =
+          eyeFunction();
+          // department.description,
+          // department.name
+        openModal(hireButton);
+      });
 
       imgEdit.src = "../../images/adminIcons/pencil.png";
       imgEdit.alt = "editicon";
-      imgEdit.classList.add(`${department.uuid}`)
+      imgEdit.classList.add(`${department.uuid}`);
 
       imgEdit.addEventListener("click", async () => {
-        const departmentEdit = editDepartmentDescription(department.description, department.uuid);
+        const departmentEdit = editDepartmentDescription(
+          department.description,
+          department.uuid
+        );
         openModal(departmentEdit);
       });
 
       imgTrash.src = "../../images/adminIcons/trash.png";
       imgTrash.alt = "trashicon";
-      imgTrash.classList.add(`${department.uuid}`)
+      imgTrash.classList.add(`${department.uuid}`);
 
       imgTrash.addEventListener("click", async () => {
-        const departmentDelete = removeDepartment(department.name, department.uuid);
+        const departmentDelete = removeDepartment(
+          department.name,
+          department.uuid
+        );
         openModal(departmentDelete);
       });
 
@@ -170,7 +194,7 @@ export const renderAllUsers = async () => {
     imgEdit.src = "../../images/adminIcons/bluepencil.png";
     imgEdit.id = "editUserIcon";
     imgEdit.alt = "editicon";
-    imgEdit.classList.add(`${user.uuid}`)
+    imgEdit.classList.add(`${user.uuid}`);
 
     imgEdit.addEventListener("click", async () => {
       const userEdit = editUser(user.uuid);
@@ -180,7 +204,7 @@ export const renderAllUsers = async () => {
     imgTrash.src = "../../images/adminIcons/trash.png";
     imgTrash.id = "trashUserIcon";
     imgTrash.alt = "trashicon";
-    imgTrash.classList.add(`${user.uuid}`)
+    imgTrash.classList.add(`${user.uuid}`);
 
     imgTrash.addEventListener("click", async () => {
       const userDelete = removeUser(user.username, user.uuid);
@@ -205,14 +229,14 @@ export const selectMenu = async () => {
 
   selectList.appendChild(option);
   selectList.addEventListener("change", (event) => {
-    console.log(selectList.value);
+    // console.log(selectList.value);
 
     if (selectList.value == "all-companies") {
       renderAllDepartments(listAllDepartments);
       return;
     }
 
-    renderAllDepartments(companies, selectList.value);
+    renderAllDepartments(listAllDepartments, selectList.value);
   });
 
   companies.forEach((company) => {

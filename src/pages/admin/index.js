@@ -7,9 +7,9 @@ import { selectMenu } from "../../scripts/admin.js";
 
 import { editUser } from "../../scripts/forms.js";
 import { removeUser } from "../../scripts/forms.js";
-import {removeDepartment} from "../../scripts/forms.js";
-import {createNewDepartment} from "../../scripts/admin.js"
-
+import { removeDepartment } from "../../scripts/forms.js";
+import { createNewDepartment } from "../../scripts/admin.js";
+import { eyeFunction } from "../../scripts/forms.js";
 
 const listAllDepartments = await requestListAllDepartments();
 
@@ -19,5 +19,6 @@ renderAllDepartments(listAllDepartments);
 selectMenu();
 editUser();
 removeUser();
-removeDepartment()
-createNewDepartment()
+removeDepartment();
+createNewDepartment();
+eyeFunction();
