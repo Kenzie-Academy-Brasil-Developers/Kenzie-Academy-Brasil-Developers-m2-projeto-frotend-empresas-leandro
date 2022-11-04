@@ -332,12 +332,13 @@ export const createDepartment = async () => {
 };
 
 export const eyeFunction = async (description, name, id) => {
+
+  // console.log(id);
   const backgroundModal = document.getElementById("backgroundModal");
   const listAllUsers = await requestListAllUsers();
   const listAllDepartments = await requestListAllDepartments();
 
-  console.log(listAllUsers);
-  // console.log(listAllDepartments);
+  // console.log(listAllUsers);
 
   const formulario = document.createElement("form");
   formulario.classList.add("formbase");
@@ -376,7 +377,7 @@ export const eyeFunction = async (description, name, id) => {
   formulario.append(h2, sectionTop);
 
   formulario.addEventListener("submit", async (event) => {
-    event.preventDefault();
+    // event.preventDefault();
 
     // console.log(event.target.elements);
     // console.log(event.target.elements[0].value);
@@ -392,16 +393,13 @@ export const eyeFunction = async (description, name, id) => {
       const buttonHidden = document.querySelector(".hidden");
 
       buttonHidden.classList.toggle("hidden");
-
-      // backgroundModal.remove();
-      // renderEyeModalUserCards()
       window.location.reload();
     });
   });
 
   listAllUsers.forEach((user) => {
     // console.log(user);
-    if (user.username !== "ADMIN" || user.department_uuid !== null) {
+    if (user.username !== "ADMIN" && user.department_uuid == null) {
       const option0 = document.createElement("option");
       option0.innerText = user.username;
       option0.name = user.username;
@@ -417,7 +415,7 @@ export const eyeFunction = async (description, name, id) => {
   const sectionBottom = document.createElement("section");
   const ul = document.createElement("ul");
 
-  ul.innerHTML = ""
+  // ul.innerHTML = ""
 
 
   listAllUsers.forEach((user) => {
@@ -437,9 +435,9 @@ export const eyeFunction = async (description, name, id) => {
       return depart;
     };
 
-    if (user.username !== "ADMIN") {
-      // if (user.username !== "ADMIN" && user.department_uuid == listAllDepartments.uuid || user.department_uuid == null) {
-        const renderEyeModalUserCards = () => {
+    // if (user.username !== "ADMIN") {
+      if (user.username !== "ADMIN" && user.department_uuid == id) {
+
         // ul.innerHTML = ""
         const li = document.createElement("li");
         const divAbout = document.createElement("div");
@@ -462,7 +460,6 @@ export const eyeFunction = async (description, name, id) => {
 
         button.addEventListener("click", (event) => {
           // event.preventDefault();
-          renderEyeModalUserCards()
           requestDismissEmployee(user.uuid);
         });
 
@@ -477,9 +474,7 @@ export const eyeFunction = async (description, name, id) => {
         ul.append(li);
         sectionBottom.append(ul);
         formulario.append(sectionBottom);
-      };
-      // ul.innerHTML = ""
-      renderEyeModalUserCards()
+
     }
   });
 

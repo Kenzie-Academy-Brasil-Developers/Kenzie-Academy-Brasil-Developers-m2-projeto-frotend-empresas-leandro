@@ -56,9 +56,8 @@ export const renderAllDepartments = (array, filter) => {
         imgEye.src = "../../images/adminIcons/eye.png";
         imgEye.alt = "eyeicon";
         imgEye.addEventListener("click", async () => {
-          // console.log("oi");
-          const hireButton = await eyeFunction();
-          openModal(eyeFunction());
+          const hireButton = await eyeFunction(department.description, department.name, department.uuid);
+          openModal(hireButton);
         });
 
         imgEdit.src = "../../images/adminIcons/pencil.png";
@@ -113,9 +112,6 @@ export const renderAllDepartments = (array, filter) => {
       imgEye.alt = "eyeicon";
       imgEye.addEventListener("click", async () => {
         const hireButton = await eyeFunction(department.description, department.name, department.uuid);
-        // console.log(hireButton);
-        // department.description,
-        // department.name
         openModal(hireButton);
       });
 
