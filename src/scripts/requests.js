@@ -1,4 +1,5 @@
 import { getLocalStorage } from "./localStorage.js";
+import { toast } from "./toast.js";
 
 const baseURL = "http://localhost:6278/";
 
@@ -19,10 +20,13 @@ export async function requestRegister(body) {
     if (request.ok == true) {
       const response = await request.json();
 
-      console.log(response);
+      toast("Sucess!", `Criação de usuário bem sucedida`);
 
-      window.location.assign("../login/index.html");
+      setTimeout(() => {
+        window.location.assign("../login/index.html");
+      }, 4000);
     } else {
+      toast("Fail!", `Preencha os campos novamente`);
       console.log(err);
     }
   } catch (err) {
@@ -45,15 +49,21 @@ export async function requestLogin(body) {
       const response = await request.json();
       console.log(response);
 
-      localStorage.setItem("user", response.token);
-      localStorage.setItem("@user", JSON.stringify(response));
+      toast("Sucess!", `Login efetivado com sucesso!`);
 
-      requestValidateUser(response.token);
+      setTimeout(() => {
+        localStorage.setItem("user", response.token);
+        localStorage.setItem("@user", JSON.stringify(response));
+
+        requestValidateUser(response.token);
+      }, 4000);
       // requestValidateUser(response);
 
-      console.log(response.token);
-      console.log(response);
+      // console.log(response.token);
+      // console.log(response);
     } else {
+      const pError = document.getElementById("error");
+      pError.classList.remove("hidden");
       console.log(err);
     }
   } catch (err) {
@@ -255,10 +265,16 @@ export const requestUpdateEmployee = async (body, id) => {
       body: JSON.stringify(body),
     });
 
-    const response = await request.json();
-    console.log(response);
+    if (request.ok) {
+      const response = await request.json();
 
-    return response;
+      toast("Sucess!", `Empregado editado com sucesso!`);
+    } else {
+      toast("Fail!", `Falha na solicitação`);
+    }
+    // console.log(response);
+
+    // return response;
   } catch (err) {
     console.log(err);
   }
@@ -275,19 +291,16 @@ export const requestDeleteUser = async (id) => {
       },
     });
 
+    // const response = await request.json();
     if (request.ok) {
-      const response = await request.json();
-
-      // toast(
-      //   "Post deletado com sucesso!",
-      //   `O post selecionado para exlusão foi deletado, a partir de agora não aparecerá no seu feed`
-      // );
+      toast("Sucess!", `Usuário removido com sucesso!`);
 
       // renderPosts();
     } else {
-      console.log(err);
+      toast("Fail!", `Não foi possivel remover o usuário`);
+      // console.log(err);
     }
-    return response;
+    // return response;
   } catch (err) {
     console.log(err);
   }
@@ -367,13 +380,14 @@ export async function requestCreateDepartment(body) {
 
     console.log(request);
 
-    if (request.ok == true) {
+    if (request.ok) {
       const response = await request.json();
-      console.log(response);
 
+      toast("Sucess!", `Empregado editado com sucesso!`);
     } else {
-      console.log(err);
+      toast("Fail!", `Falha na solicitação`);
     }
+    
   } catch (err) {
     console.log(err);
   }
@@ -430,9 +444,13 @@ export async function requestEditDepartment(body, uuid) {
       body: JSON.stringify(body),
     });
 
-    const response = await request.json();
-console.log(response);
-    return response;
+    if (request.ok) {
+      const response = await request.json();
+
+      toast("Sucess!", `Empregado editado com sucesso!`);
+    } else {
+      toast("Fail!", `Falha na solicitação`);
+    }
   } catch (err) {
     console.log(err);
   }
@@ -450,18 +468,14 @@ export const requestDeleteDepartment = async (id) => {
     });
 
     if (request.ok) {
-      const response = await request.json();
-
-      // toast(
-      //   "Post deletado com sucesso!",
-      //   `O post selecionado para exlusão foi deletado, a partir de agora não aparecerá no seu feed`
-      // );
+      toast("Sucess!", `Departamento removido com sucesso!`);
 
       // renderPosts();
     } else {
-      console.log(err);
+      toast("Fail!", `Não foi possivel remover o departament`);
+      // console.log(err);
     }
-    return response;
+    // return response;
   } catch (err) {
     console.log(err);
   }

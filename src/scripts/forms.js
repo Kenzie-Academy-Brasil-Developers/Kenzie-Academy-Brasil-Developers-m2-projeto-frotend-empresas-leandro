@@ -138,19 +138,19 @@ export const editUser = (id) => {
 
   formulario.addEventListener("submit", async (event) => {
     event.preventDefault();
-    console.log(event);
+    // console.log(event);
 
     const backgroundModal = document.getElementById("backgroundModal");
     const body = {
       kind_of_work: event.target[0].value,
       professional_level: event.target[1].value,
     };
-    console.log(id);
+    // console.log(id);
 
     await requestUpdateEmployee(body, id).then(() => {
       renderAllUsers();
       backgroundModal.remove();
-      window.location.reload();
+      // window.location.reload();
     });
   });
 
@@ -173,7 +173,6 @@ export const editUser = (id) => {
 
 export const removeUser = (name, id) => {
   const formulario = document.createElement("form");
-  const backgroundModal = document.getElementById("backgroundModal");
 
   formulario.classList.add("formbase");
 
@@ -188,13 +187,14 @@ export const removeUser = (name, id) => {
   buttonRemove.innerText = "Deletar";
 
   buttonRemove.addEventListener("click", (event) => {
-    // event.preventDefault();
+    event.preventDefault();
 
-    requestDeleteUser(id);
-    renderAllUsers();
-    backgroundModal.remove();
+    requestDeleteUser(id).then(() => {
+      const backgroundModal = document.getElementById("backgroundModal");
+      renderAllUsers();
+      backgroundModal.remove();
+    });
   });
-
   formulario.append(h2, buttonRemove);
 
   return formulario;
@@ -202,7 +202,6 @@ export const removeUser = (name, id) => {
 
 export const removeDepartment = (name, id) => {
   const formulario = document.createElement("form");
-  const backgroundModal = document.getElementById("backgroundModal");
 
   formulario.classList.add("formbase");
 
@@ -219,9 +218,12 @@ export const removeDepartment = (name, id) => {
   buttonRemove.addEventListener("click", (event) => {
     // event.preventDefault();
 
-    requestDeleteDepartment(id);
-    renderAllDepartments();
-    backgroundModal.remove();
+    requestDeleteDepartment(id).then(() => {
+      const listAllDepartments = requestListAllDepartments();
+      const backgroundModal = document.getElementById("backgroundModal");
+      renderAllDepartments(listAllDepartments);
+      backgroundModal.remove();
+    });
   });
 
   formulario.append(h2, buttonRemove);
@@ -332,7 +334,6 @@ export const createDepartment = async () => {
 };
 
 export const eyeFunction = async (description, name, id) => {
-
   // console.log(id);
   const backgroundModal = document.getElementById("backgroundModal");
   const listAllUsers = await requestListAllUsers();
@@ -409,18 +410,12 @@ export const eyeFunction = async (description, name, id) => {
     }
   });
 
-
-
-
   const sectionBottom = document.createElement("section");
   const ul = document.createElement("ul");
 
   // ul.innerHTML = ""
 
-
   listAllUsers.forEach((user) => {
-
-    
     const departments = [...listAllDepartments];
 
     const getDepartamentName = () => {
@@ -436,51 +431,48 @@ export const eyeFunction = async (description, name, id) => {
     };
 
     // if (user.username !== "ADMIN") {
-      if (user.username !== "ADMIN" && user.department_uuid == id) {
+    if (user.username !== "ADMIN" && user.department_uuid == id) {
+      // ul.innerHTML = ""
+      const li = document.createElement("li");
+      const divAbout = document.createElement("div");
+      const username = document.createElement("p");
+      const userProfessional_level = document.createElement("p");
+      const companyName = document.createElement("p");
+      const divButton = document.createElement("div");
+      const button = document.createElement("button");
 
-        // ul.innerHTML = ""
-        const li = document.createElement("li");
-        const divAbout = document.createElement("div");
-        const username = document.createElement("p");
-        const userProfessional_level = document.createElement("p");
-        const companyName = document.createElement("p");
-        const divButton = document.createElement("div");
-        const button = document.createElement("button");
+      sectionBottom.classList.add("bottomSectionEye");
+      ul.classList.add("ulBottomEye");
+      li.classList.add("liBottomEye");
+      divAbout.classList = "div-about divAboutEye";
+      divButton.classList.add("divButtonEye");
+      button.classList = "button-default button-style-400";
 
-        sectionBottom.classList.add("bottomSectionEye");
-        ul.classList.add("ulBottomEye");
-        li.classList.add("liBottomEye");
-        divAbout.classList = "div-about divAboutEye";
-        divButton.classList.add("divButtonEye");
-        button.classList = "button-default button-style-400";
+      if (user.department_uuid == null) {
+        button.classList.add("hidden");
+      }
 
-        if (user.department_uuid == null) {
-          button.classList.add("hidden");
-        }
+      button.addEventListener("click", (event) => {
+        // event.preventDefault();
+        requestDismissEmployee(user.uuid);
+      });
 
-        button.addEventListener("click", (event) => {
-          // event.preventDefault();
-          requestDismissEmployee(user.uuid);
-        });
+      username.innerText = user.username;
+      userProfessional_level.innerText = user.professional_level;
+      companyName.innerText = getDepartamentName();
+      button.innerText = "Desligar";
 
-        username.innerText = user.username;
-        userProfessional_level.innerText = user.professional_level;
-        companyName.innerText = getDepartamentName();
-        button.innerText = "Desligar";
-
-        divAbout.append(username, userProfessional_level, companyName);
-        divButton.append(button);
-        li.append(divAbout, divButton);
-        ul.append(li);
-        sectionBottom.append(ul);
-        formulario.append(sectionBottom);
-
+      divAbout.append(username, userProfessional_level, companyName);
+      divButton.append(button);
+      li.append(divAbout, divButton);
+      ul.append(li);
+      sectionBottom.append(ul);
+      formulario.append(sectionBottom);
     }
   });
 
   return formulario;
 };
-
 
 //   // ul.innerHTML = ""
 
@@ -489,14 +481,13 @@ export const eyeFunction = async (description, name, id) => {
 //   const ul = document.querySelector("#ulCardsEye")
 //         console.log(ul);
 
-
 //   const renderAllCardsUsers = () => {
 
 //   listAllUsers.forEach((user) => {
 
 //     // if (user.username !== "ADMIN") {
 //       // if (user.username !== "ADMIN" && user.department_uuid == listAllDepartments.uuid || user.department_uuid == null) {
-    
+
 //     const departments = [...listAllDepartments];
 
 //     const getDepartamentName = () => {
@@ -511,8 +502,6 @@ export const eyeFunction = async (description, name, id) => {
 //       return depart;
 //     };
 
-
-
 //         const li = document.createElement("li");
 //         const divAbout = document.createElement("div");
 //         const username = document.createElement("p");
@@ -520,7 +509,6 @@ export const eyeFunction = async (description, name, id) => {
 //         const companyName = document.createElement("p");
 //         const divButton = document.createElement("div");
 //         const button = document.createElement("button");
-
 
 //         li.classList.add("liBottomEye");
 //         divAbout.classList = "div-about divAboutEye";

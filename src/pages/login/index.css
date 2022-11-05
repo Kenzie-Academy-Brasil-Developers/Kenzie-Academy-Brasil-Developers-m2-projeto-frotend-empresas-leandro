@@ -71,3 +71,11 @@
     flex-direction: row;
   }
 }
+
+.error-text {
+  color: var(--color-300);
+}
+
+.hidden {
+  display: none;
+}
